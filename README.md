@@ -15,13 +15,12 @@
 1. 본인이 소유한 **일본판 ROM**을 준비합니다.
    - 파일명 예: `Nobunaga no Yabou DS 2 (Japan).nds`
    - 원본 CRC32: `72C536BA` / 패치 후 CRC32: `66F8E6CC`
-2. BPS 패치 적용 도구를 사용해 `nobu2-kr.bps`를 적용합니다.
-   - Windows: [Floating IPS (Flips)](https://github.com/Alcaro/Flips)
-   - 웹: [RomPatcher.js](https://www.marcrobledo.com/RomPatcher.js/)
-   - 또는 동봉된 `tools/apply_bps.py` 실행:
+2. xdelta 패치 적용 도구를 사용해 `nobu2-kr.xdelta`를 적용합니다.
+   - Windows: xdeltaUI 또는 [xdelta3](https://github.com/jmacd/xdelta) 명령행:
      ```
-     python tools/apply_bps.py nobu2-kr.bps "원본.nds" "한글판.nds"
+     xdelta3 -d -s "원본.nds" nobu2-kr.xdelta "한글판.nds"
      ```
+   - 웹: [RomPatcher.js](https://www.marcrobledo.com/RomPatcher.js/) (xdelta 지원)
 3. 생성된 ROM을 melonDS / DeSmuME 등 에뮬레이터 또는 실기에서 구동합니다.
 
 ## 알려진 제한 사항
