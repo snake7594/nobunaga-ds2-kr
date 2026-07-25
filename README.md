@@ -15,7 +15,7 @@
 
 1. 본인이 소유한 **일본판 ROM**을 준비합니다.
    - 파일명 예: `Nobunaga no Yabou DS 2 (Japan).nds`
-   - 원본 CRC32: `72C536BA` / 패치 후 CRC32(v1.1): `04F7CFED`
+   - 원본 CRC32: `72C536BA` / 패치 후 CRC32(v1.1): `51EF7A59`
 2. xdelta 패치 적용 도구를 사용해 `nobu2-kr.xdelta`를 적용합니다.
    - Windows: xdeltaUI 또는 [xdelta3](https://github.com/jmacd/xdelta) 명령행:
      ```
