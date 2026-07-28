@@ -177,6 +177,14 @@ def main():
         print(f'  {name}: {orig_size} -> {len(nf)} ({grow:+d}, demotions={demotions})')
     print('msgsec unit sources:', stats)
 
+    # ---- graphics: label-translated .dat files (same size, pixel data only) ----
+    gfx_dir = WORK + r'\fs_gfx\obj'
+    gfx_files = {}
+    if os.path.isdir(gfx_dir):
+        for fn in sorted(os.listdir(gfx_dir)):
+            gfx_files['/obj/' + fn] = open(os.path.join(gfx_dir, fn), 'rb').read()
+    print('graphics files patched:', len(gfx_files))
+
     # ---- ROM assembly: keep everything in place; relocate only grown files to the tail ----
     rom = bytearray(open(ROM_IN, 'rb').read())
     rom[ARM9_ROM_OFF: ARM9_ROM_OFF + len(arm9)] = arm9
@@ -189,6 +197,11 @@ def main():
         if p == '/scenario/common.snr':
             assert len(snr) == f['size']
             rom[f['start']: f['start'] + len(snr)] = snr
+            continue
+        if p in gfx_files:
+            g = gfx_files[p]
+            assert len(g) == f['size'], f'{p}: graphics size changed'
+            rom[f['start']: f['start'] + len(g)] = g
             continue
         if p not in new_files:
             continue
