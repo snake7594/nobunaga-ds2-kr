@@ -86,19 +86,37 @@ def main():
     for opts in cand.values():
         for _, kr in opts: sylls |= krtools.used_syllables(kr)
 
-    safe = _snr.compute()
-    inplace = {}
+    # ---- common.snr: use the SAFE field list (halfwidth-kana bytes there are
+    # binary record data, not text; v1.0-v1.4 overwrote them and scrambled busho
+    # records, e.g. face indices). Only genuine null-terminated SJIS fields. ----
+    snr_safe = json.load(open(WORK + r'\snr_units_safe.json', encoding='utf-8'))
+    kr_by_off = {}
     for uid, u in units_v1.items():
-        if u['src'].startswith('msgsec'): continue
-        if u['src'] == 'common.snr':
-            sc = safe.get(u['off'])
-            if sc is not None:
-                u = dict(u); u['cap'] = sc; u['lines'] = [sc]
+        if u['src'] != 'common.snr': continue
+        kr = tr1.get(uid)
+        if kr is not None:
+            kr_by_off[u['off']] = fix(kr)
+
+    inplace = {}
+    key = 0
+    for s in snr_safe:
+        kr = kr_by_off.get(s['off'])
+        if kr is None: continue
+        u = {'src': 'common.snr', 'off': s['off'], 'len': s['len'],
+             'cap': s['cap'], 'lines': [s['cap']]}
+        if krtools.check_translation(kr, u['lines'])[0]:
+            inplace[('snr', key)] = (u, kr)
+            sylls |= krtools.used_syllables(kr)
+            key += 1
+    print(f'common.snr safe fields: {len(snr_safe)}, translated: {len(inplace)}')
+
+    for uid, u in units_v1.items():
+        if u['src'] != 'arm9.bin': continue
         kr = tr1.get(uid)
         if kr is None: continue
         kr = fix(kr)
         if krtools.check_translation(kr, u['lines'])[0]:
-            inplace[uid] = (u, kr)
+            inplace[('arm9', uid)] = (u, kr)
             sylls |= krtools.used_syllables(kr)
 
     c2i = krtools.load_code2idx()
@@ -112,14 +130,22 @@ def main():
     for s, code in smap.items():
         i = c2i[code]
         arm9[FONT_OFF + i*18: FONT_OFF + i*18 + 18] = krtools.rows_to_bytes(krtools.render_glyph12(s))
+    # Minimal-write policy: emit the translation plus ONE null terminator and
+    # leave every other byte of the field untouched, so an over-estimated
+    # capacity can never clobber neighbouring binary data.
     snr = bytearray(open(WORK + r'\fs\scenario\common.snr', 'rb').read())
     for uid, (u, kr) in inplace.items():
-        enc = krtools.encode_unit(kr, u['lines'], smap, pad='null')
+        enc = krtools.encode_line(kr.replace('{BR}', ''), smap)
+        cap = u['lines'][0]
+        if len(enc) > cap:
+            continue
         buf = arm9 if u['src'] == 'arm9.bin' else snr
         off = u['off']
-        for k in range(u['len'], len(enc)):
-            assert buf[off + k] == 0
         buf[off: off + len(enc)] = enc
+        # terminator: only needed when the translation is shorter than the field's
+        # text area; at exactly cap the original terminator already follows.
+        if len(enc) < cap:
+            buf[off + len(enc)] = 0
     print(f'font glyphs {len(smap)}, in-place units {len(inplace)}')
 
     manifest = json.load(open(WORK + r'\manifest.json'))

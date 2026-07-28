@@ -20,8 +20,12 @@ allowed = [(0x4000, 0x4000 + 0x1A1098)]                    # arm9
 allowed.append((0x80, 0x84))                                # used size
 allowed.append((0x15E, 0x160))                              # header CRC
 allowed.append((orig_used, len(a)))                         # previously unused tail
+gfx_dir = WORK + r'\fs_gfx\obj'
+gfx_names = set(os.listdir(gfx_dir)) if os.path.isdir(gfx_dir) else set()
 for f in manifest['files']:
     p = f['path']
+    if p.startswith('/obj/') and os.path.basename(p) in gfx_names:
+        allowed.append((f['start'], f['start'] + f['size']))  # label-translated graphics
     if '/msg/msgsec' in p or p == '/scenario/common.snr':
         allowed.append((f['start'], f['start'] + f['size']))  # old slot (rewritten or freed)
     if f['id'] in msg_ids:
@@ -50,6 +54,8 @@ for s, e in outside[:8]:
 bad = []
 for f in manifest['files']:
     if f['id'] in msg_ids or f['path'] == '/scenario/common.snr':
+        continue
+    if f['path'].startswith('/obj/') and os.path.basename(f['path']) in gfx_names:
         continue
     s, sz = f['start'], f['size']
     if a[s:s+sz] != b[s:s+sz]:

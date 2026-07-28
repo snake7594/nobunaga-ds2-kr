@@ -43,18 +43,27 @@ def analyse(info, idx):
 
 def draw_text(info, idx, text, W, H, src, bg, ink, box):
     bx, by, bw, bh = box
-    # try decreasing font sizes until the text fits the box width
-    chosen = None
-    for size in (13, 12, 11, 10, 9, 8):
+    # Prefer the LARGEST size that fits (matches the original Japanese weight).
+    # Galmuri11 stays crisp when scaled up. 11 is the floor; only go smaller
+    # when the label genuinely cannot fit.
+    probe = ImageDraw.Draw(Image.new('L', (1, 1)))
+    def fits(size):
         f = ImageFont.truetype(FONT, size)
-        probe = Image.new('L', (1, 1))
-        wpx = ImageDraw.Draw(probe).textlength(text, font=f)
-        if wpx <= bw:
+        wpx = probe.textlength(text, font=f)
+        return (wpx <= bw and size <= bh), f, wpx
+    chosen = None
+    for size in (16, 15, 14, 13, 12, 11):
+        ok, f, wpx = fits(size)
+        if ok:
             chosen = (f, size, wpx); break
     if chosen is None:
-        f = ImageFont.truetype(FONT, 8)
-        wpx = ImageDraw.Draw(Image.new('L', (1, 1))).textlength(text, font=f)
-        chosen = (f, 8, wpx)
+        for size in (10, 9, 8, 7):
+            ok, f, wpx = fits(size)
+            if ok:
+                chosen = (f, size, wpx); break
+    if chosen is None:
+        f = ImageFont.truetype(FONT, 7)
+        chosen = (f, 7, probe.textlength(text, font=f))
     f, size, wpx = chosen
     img = Image.new('L', (bw, bh), 255)
     d = ImageDraw.Draw(img)
