@@ -14,12 +14,14 @@
   (NCER 셀 리버싱 + 자동 글자영역 검출 + 갈무리 폰트 렌더링)
 - **v1.5**: 무장 데이터베이스의 이진 필드(얼굴 번호 등)가 손상되던 중대 버그 수정,
   메뉴 라벨 글자 크기 확대
+- **v1.6**: 축약 정책을 반전(가장 좋아진 번역부터 되돌리던 문제 수정) +
+  줄 끝 여백 회수로 대사 확장 폭 확대
 
 ## 적용 방법
 
 1. 본인이 소유한 **일본판 ROM**을 준비합니다.
    - 파일명 예: `Nobunaga no Yabou DS 2 (Japan).nds`
-   - 원본 CRC32: `72C536BA` / 패치 후 CRC32(v1.5): `C4D0FCCE`
+   - 원본 CRC32: `72C536BA` / 패치 후 CRC32(v1.6): `8F6A60C1`
 2. xdelta 패치 적용 도구를 사용해 `nobu2-kr.xdelta`를 적용합니다.
    - Windows: xdeltaUI 또는 [xdelta3](https://github.com/jmacd/xdelta) 명령행:
      ```

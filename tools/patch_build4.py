@@ -24,6 +24,12 @@ def fix(kr):
         if b in kr: kr = kr.replace(b, g)
     return kr
 
+def trim(kr):
+    """Drop trailing padding on each line. Japanese pads line ends with fullwidth
+    spaces for column alignment; at the END of a line it is invisible, so this
+    reclaims bytes for the translation with no visual change."""
+    return '{BR}'.join(ln.rstrip('　 ') for ln in kr.split('{BR}'))
+
 def enc_unit(kr, budgets, smap):
     lines = kr.split('{BR}')
     if len(lines) != len(budgets):
@@ -69,7 +75,7 @@ def main():
         for src_tr, tag in ((tr2, 'v2'), (tr1, 'v1')):
             kr = src_tr.get(uid)
             if kr is None: continue
-            kr = fix(kr)
+            kr = trim(fix(kr))
             if krtools.check_translation(kr, u['lines'])[0]:
                 opts.append((tag, kr))
         if opts: cand[uid] = opts
@@ -151,8 +157,16 @@ def main():
     manifest = json.load(open(WORK + r'\manifest.json'))
     msg_sizes = {os.path.basename(f['path']): f['size']
                  for f in manifest['files'] if '/msg/msgsec' in f['path']}
+    # The loader reads a whole msgsec file into a pre-allocated buffer with no
+    # length clamp, so the file must fit that buffer. The largest original file
+    # is 16137 = 0x3F09, i.e. the buffer is a 0x4000 (16 KiB) block; 0x4000 is
+    # therefore the true ceiling, not the largest original file.
+    # 0x4000 would be the natural block size, but the buffer may have been sized
+    # from the largest file (16137 -> 16160 after the allocator's 32-byte
+    # rounding). Only "<= largest original file" is PROVEN loadable, so that is
+    # the ceiling we use; the quality budget is maximised inside it instead.
     MAX_ORIG = max(msg_sizes.values())
-    print(f'message-buffer safe cap = {MAX_ORIG} bytes (largest original msgsec)')
+    print(f'proven-safe message ceiling = {MAX_ORIG} bytes')
 
     by_src = msg_rebuild.load_units()
     new_files = {}
@@ -175,8 +189,12 @@ def main():
 
         nf, texts = build(choice)
         demotions = 0
+        # Demote in order of SMALLEST relative quality loss, not largest byte
+        # gain: shaving many nearly-equivalent lines preserves the big, genuinely
+        # better expansions (which is the whole point of the quality pass).
         while len(nf) > cap:
-            worst, gain_best = None, 0
+            need = len(nf) - cap
+            ranked = []
             for u in units:
                 ci = choice.get(u['id'])
                 if ci is None: continue
@@ -187,13 +205,20 @@ def main():
                     try: nxt = len(enc_unit(opts[ci+1][1], budgets_of[u['id']], smap))
                     except Exception: nxt = None
                 if nxt is None: nxt = u['len']
-                if cur - nxt > gain_best:
-                    worst, gain_best = u['id'], cur - nxt
-            if worst is None: break
-            opts = cand[worst]
-            choice[worst] = choice[worst] + 1 if choice[worst] + 1 < len(opts) else None
+                gain = cur - nxt
+                if gain <= 0: continue
+                ranked.append((gain / max(cur, 1), gain, u['id']))
+            if not ranked: break
+            ranked.sort()                      # least relative loss first
+            saved = 0
+            for ratio, gain, uid2 in ranked:
+                opts = cand[uid2]
+                choice[uid2] = choice[uid2] + 1 if choice[uid2] + 1 < len(opts) else None
+                demotions += 1
+                saved += gain
+                if saved >= need:
+                    break
             nf, texts = build(choice)
-            demotions += 1
         assert len(nf) <= cap, f'{name}: {len(nf)} > cap {cap}'
         new_files['/msg/' + name] = nf
         for u in units:
