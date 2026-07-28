@@ -33,12 +33,16 @@ def expand(name, entries):
                 have.add(d)
     return out
 
+# Ending.dat is the staff roll: multi-line credit blocks (role above, name
+# below) that the single-line layout cannot reproduce.  Left in Japanese.
+SKIP = {'Ending'}
+
 def main():
     os.makedirs(OUT_OBJ, exist_ok=True)
     total_files = total_labels = 0
     for lp in sorted(glob.glob(LABELS + r'\*.json')):
         name = os.path.splitext(os.path.basename(lp))[0]
-        if name.startswith('_'): continue
+        if name.startswith('_') or name in SKIP: continue
         dat = os.path.join(SRC_OBJ, name + '.dat')
         if not os.path.exists(dat):
             print(f'  skip {name}: no .dat'); continue
@@ -56,6 +60,14 @@ def main():
                        or '\uff10' <= c <= '\uff5a' for c in s)
         def is_kr(s):
             return any('\uac00' <= c <= '\ud7a3' for c in s)
+        # Terms whose natural transliteration overflows a narrow button:
+        # use a shorter Korean word that still reads correctly.
+        FIT = {'足軽': '보병', '足軽隊': '보병대', '騎馬隊': '기마대', '鉄砲隊': '철포대'}
+        for e in entries:
+            j = e.get('jp', '')
+            if j in FIT:
+                e['kr'] = FIT[j]
+        # Latin-only art (Wi-Fi, RUN&GUN ...) is already readable - leave it alone.
         good = [e for e in entries
                 if is_jp(e.get('jp', '')) and is_kr(e['kr']) and '?' not in e['kr']]
         if not good:

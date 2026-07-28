@@ -58,7 +58,7 @@ def main():
                 units_v1[u['id']] = u
     units_v2 = {u['id']: u for u in json.load(open(WORK + r'\units_v2.json', encoding='utf-8'))}
 
-    tr1, tr2 = {}, {}
+    tr1, tr2, tr3 = {}, {}, {}
     for p in sorted(glob.glob(WORK + r'\tr\out\out_*.json')):
         try:
             for it in json.load(open(p, encoding='utf-8')): tr1[it['id']] = it.get('kr', '')
@@ -67,12 +67,19 @@ def main():
         try:
             for it in json.load(open(p, encoding='utf-8')): tr2[it['id']] = it.get('kr', '')
         except Exception: pass
+    # v3: same byte budget as the terse fallback, but written naturally.
+    # It therefore REPLACES v1 as the compact option, never the expanded one.
+    for p in sorted(glob.glob(WORK + r'\tr\out3\out_*.json')):
+        try:
+            for it in json.load(open(p, encoding='utf-8')): tr3[it['id']] = it.get('kr', '')
+        except Exception: pass
+    print(f'translations: v1={len(tr1)} v2={len(tr2)} v3={len(tr3)}')
 
     cand, budgets_of = {}, {}
     for uid, u in units_v2.items():
         budgets_of[uid] = u['lines']
         opts = []
-        for src_tr, tag in ((tr2, 'v2'), (tr1, 'v1')):
+        for src_tr, tag in ((tr2, 'v2'), (tr3, 'v3'), (tr1, 'v1')):
             kr = src_tr.get(uid)
             if kr is None: continue
             kr = trim(fix(kr))
@@ -170,7 +177,8 @@ def main():
 
     by_src = msg_rebuild.load_units()
     new_files = {}
-    stats = {'v2': 0, 'v1': 0, 'jp': 0}
+    stats = {'v2': 0, 'v3': 0, 'v1': 0, 'jp': 0}
+    demoted = []
     for name in sorted(by_src):
         data = open(WORK + r'\fs\msg' + '\\' + name, 'rb').read()
         orig_size = len(data)
@@ -224,9 +232,23 @@ def main():
         for u in units:
             ci = choice.get(u['id'])
             stats['jp' if ci is None else cand[u['id']][ci][0]] += 1
+            # record units that had to fall back, with the byte budget they must
+            # respect, so a dedicated "natural but concise" pass can replace them
+            if ci is not None and cand[u['id']][ci][0] == 'v1' and u['id'] in tr2:
+                cur = texts.get(u['id'])
+                if cur is None: continue
+                lines_b = [len(x) for x in cur.split(b'\x0A')]
+                demoted.append({'id': u['id'], 'src': name,
+                                'jp': units_v2[u['id']]['jp'] if u['id'] in units_v2 else u['jp'],
+                                'kr_short': cand[u['id']][ci][1],
+                                'kr_long': trim(fix(tr2[u['id']])),
+                                'lines': lines_b})
         grow = len(nf) - orig_size
         print(f'  {name}: {orig_size} -> {len(nf)} ({grow:+d}, demotions={demotions})')
     print('msgsec unit sources:', stats)
+    json.dump(demoted, open(WORK + r'\demoted.json', 'w', encoding='utf-8'),
+              ensure_ascii=False, indent=0)
+    print('units needing a concise-but-natural rewrite:', len(demoted))
 
     # ---- graphics: label-translated .dat files (same size, pixel data only) ----
     gfx_dir = WORK + r'\fs_gfx\obj'
