@@ -2,6 +2,11 @@
 """Apply every gfxlabels/*.json to its .dat, writing patched copies to fs_gfx/obj/.
 Expands duplicate cells (animation frames sharing identical art) via the dump manifest."""
 import os, sys, json, glob, shutil, subprocess
+import concurrent.futures as cf
+
+# each .dat is an independent subprocess; the box is not the bottleneck, the
+# per-pixel Python loops are, so run as many as the machine will take
+WORKERS = max(4, (os.cpu_count() or 4) * 2)
 
 WORK = r'D:\nds\roms\NOBU2\_work'
 SRC_OBJ = WORK + r'\fs\obj'
@@ -34,25 +39,36 @@ def expand(name, entries):
     return out
 
 # Ending.dat is the staff roll: multi-line credit blocks (role above, name
-# below) that the single-line layout cannot reproduce.  Left in Japanese.
-SKIP = {'Ending'}
+# below) that the single-line layout cannot reproduce.
+# ComTutor.dat mixes a button icon (START, +) into the same text row, and the
+# plate it sits on defeats the background detection - the 2 cells are not worth
+# the risk.  Both are left in Japanese.
+# Common.dat holds the tiny yes/no chips: the words are only a few pixels tall
+# on a plate the same size, and the text detector cannot separate them.
+# SaveLoadShita paints the slot number into the same tiles as the caption,
+# so rewriting the caption chews up the digit.
+SKIP = {'Ending', 'ComTutor', 'Common', 'SaveLoadShita'}
 
-def main():
-    os.makedirs(OUT_OBJ, exist_ok=True)
-    total_files = total_labels = 0
-    for lp in sorted(glob.glob(LABELS + r'\*.json')):
-        name = os.path.splitext(os.path.basename(lp))[0]
-        if name.startswith('_') or name in SKIP: continue
-        dat = os.path.join(SRC_OBJ, name + '.dat')
-        if not os.path.exists(dat):
-            print(f'  skip {name}: no .dat'); continue
-        try:
-            entries = json.load(open(lp, encoding='utf-8-sig'))
-        except Exception as e:
-            print(f'  skip {name}: bad json ({e})'); continue
-        entries = [e for e in entries if e.get('kr')]
-        if not entries:
-            continue
+def skipped(name):
+    # C256_* are the 256-colour illustration sheets - emblems, season art,
+    # menu icons.  Their Japanese is a caption fused into the artwork, and the
+    # text detector keeps latching onto the picture instead.  Not worth it.
+    return name in SKIP or name.startswith('C256_')
+
+def prepare(lp):
+    """validate + expand one label file; returns (name, entries) or None"""
+    name = os.path.splitext(os.path.basename(lp))[0]
+    if name.startswith('_') or skipped(name): return None
+    dat = os.path.join(SRC_OBJ, name + '.dat')
+    if not os.path.exists(dat):
+        print(f'  skip {name}: no .dat'); return None
+    try:
+        entries = json.load(open(lp, encoding='utf-8-sig'))
+    except Exception as e:
+        print(f'  skip {name}: bad json ({e})'); return None
+    entries = [e for e in entries if e.get('kr')]
+    if not entries: return None
+    if True:
         # reject mojibake: a valid entry has Japanese in `jp` AND Hangul in `kr`.
         # Encoding-damaged files show Hangul-looking bytes in `jp` and '?' in `kr`.
         def is_jp(s):
@@ -71,20 +87,34 @@ def main():
         good = [e for e in entries
                 if is_jp(e.get('jp', '')) and is_kr(e['kr']) and '?' not in e['kr']]
         if not good:
-            print(f'  skip {name}: encoding-damaged or unusable'); continue
+            print(f'  skip {name}: encoding-damaged or unusable'); return None
         if len(good) < len(entries):
             print(f'  {name}: dropped {len(entries)-len(good)} damaged entries')
-        entries = good
-        entries = expand(name, entries)
-        tmp = os.path.join(WORK, '_labels_tmp.json')
-        json.dump(entries, open(tmp, 'w', encoding='utf-8'), ensure_ascii=False)
-        out = os.path.join(OUT_OBJ, name + '.dat')
-        r = subprocess.run([sys.executable, os.path.join(TOOLS, 'apply_labels.py'), dat, tmp, out],
-                           capture_output=True, text=True, encoding='utf-8')
-        print(f'  {name}: {r.stdout.strip()}')
-        if os.path.exists(out):
-            total_files += 1
-            total_labels += len(entries)
+        return name, expand(name, good)
+
+def run_one(job):
+    """each file is an independent process, so they all run at once"""
+    name, entries = job
+    dat = os.path.join(SRC_OBJ, name + '.dat')
+    tmp = os.path.join(WORK, f'_labels_{name}.json')
+    json.dump(entries, open(tmp, 'w', encoding='utf-8'), ensure_ascii=False)
+    out = os.path.join(OUT_OBJ, name + '.dat')
+    r = subprocess.run([sys.executable, os.path.join(TOOLS, 'apply_labels.py'),
+                        dat, tmp, out], capture_output=True, text=True, encoding='utf-8')
+    os.remove(tmp)
+    return name, len(entries), r.stdout.strip(), os.path.exists(out)
+
+def main():
+    os.makedirs(OUT_OBJ, exist_ok=True)
+    jobs = [j for j in (prepare(lp)
+                        for lp in sorted(glob.glob(LABELS + r'\*.json'))) if j]
+    total_files = total_labels = 0
+    with cf.ThreadPoolExecutor(max_workers=WORKERS) as ex:
+        for name, n, out, ok in ex.map(run_one, jobs):
+            print(f'  {name}: {out}')
+            if ok:
+                total_files += 1
+                total_labels += n
     print(f'files patched: {total_files}, labels applied: {total_labels}')
 
 if __name__ == '__main__':

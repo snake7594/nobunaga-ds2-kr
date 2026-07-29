@@ -5,6 +5,7 @@ These go into the release so the change can be checked without running the game.
 Usage: python make_preview.py <outdir>
 """
 import os, sys, glob, json
+import concurrent.futures as cf
 from PIL import Image, ImageDraw
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ncer
@@ -66,25 +67,33 @@ def sheet(a, b, cells, title, path):
     img.save(path)
     return True
 
+def one(args):
+    name, outdir = args
+    src = os.path.join(SRC, name + '.dat')
+    p = os.path.join(PATCHED, name + '.dat')
+    if not os.path.exists(src): return None
+    a, b = ncer.load(src), ncer.load(p)
+    if not a or not b or not a.get('ncer') or not b.get('ncer'): return None
+    cells = changed_cells(a, b)
+    if not cells: return None
+    made = 0
+    for s in range(0, len(cells), PER_SHEET):
+        out = os.path.join(outdir, f'{name}_{s//PER_SHEET:02d}.png')
+        if sheet(a, b, cells[s:s+PER_SHEET], f'{name}.dat', out):
+            made += 1
+    return {'file': name, 'cells': len(cells), 'sheets': made}
+
 def main(outdir):
     os.makedirs(outdir, exist_ok=True)
     index, total = [], 0
-    for p in sorted(glob.glob(PATCHED + r'\*.dat')):
-        name = os.path.splitext(os.path.basename(p))[0]
-        src = os.path.join(SRC, name + '.dat')
-        if not os.path.exists(src): continue
-        a, b = ncer.load(src), ncer.load(p)
-        if not a or not b or not a.get('ncer') or not b.get('ncer'): continue
-        cells = changed_cells(a, b)
-        if not cells: continue
-        made = 0
-        for s in range(0, len(cells), PER_SHEET):
-            out = os.path.join(outdir, f'{name}_{s//PER_SHEET:02d}.png')
-            if sheet(a, b, cells[s:s+PER_SHEET], f'{name}.dat', out):
-                made += 1
-        index.append({'file': name, 'cells': len(cells), 'sheets': made})
-        total += len(cells)
-        print(f'  {name}: {len(cells)} cells -> {made} sheet(s)')
+    names = [os.path.splitext(os.path.basename(p))[0]
+             for p in sorted(glob.glob(PATCHED + r'\*.dat'))]
+    with cf.ProcessPoolExecutor() as ex:
+        for r in ex.map(one, [(n, outdir) for n in names]):
+            if not r: continue
+            index.append(r)
+            total += r['cells']
+            print(f"  {r['file']}: {r['cells']} cells -> {r['sheets']} sheet(s)")
     json.dump(index, open(os.path.join(outdir, 'index.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
     print(f'files: {len(index)}  changed cells: {total}')

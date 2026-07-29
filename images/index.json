@@ -5,81 +5,6 @@
   "sheets": 1
  },
  {
-  "file": "C256_SeasonSpring",
-  "cells": 1,
-  "sheets": 1
- },
- {
-  "file": "C256_SeasonWinter",
-  "cells": 1,
-  "sheets": 1
- },
- {
-  "file": "C256_SenryakuMainUe",
-  "cells": 1,
-  "sheets": 1
- },
- {
-  "file": "C256_ShinbuShita1",
-  "cells": 2,
-  "sheets": 1
- },
- {
-  "file": "C256_ShinbuShita2",
-  "cells": 4,
-  "sheets": 1
- },
- {
-  "file": "C256_ShinbuShita3",
-  "cells": 1,
-  "sheets": 1
- },
- {
-  "file": "C256_ShinbuUe1",
-  "cells": 1,
-  "sheets": 1
- },
- {
-  "file": "C256_ShoMainShita",
-  "cells": 1,
-  "sheets": 1
- },
- {
-  "file": "C256_ShoOptBFileUe",
-  "cells": 1,
-  "sheets": 1
- },
- {
-  "file": "C256_ShoOptShita",
-  "cells": 2,
-  "sheets": 1
- },
- {
-  "file": "C256_ShoOptUe",
-  "cells": 1,
-  "sheets": 1
- },
- {
-  "file": "C256_SouhaMenuShita",
-  "cells": 1,
-  "sheets": 1
- },
- {
-  "file": "C256_TsuushinUe",
-  "cells": 1,
-  "sheets": 1
- },
- {
-  "file": "ComTutor",
-  "cells": 2,
-  "sheets": 1
- },
- {
-  "file": "Common",
-  "cells": 4,
-  "sheets": 1
- },
- {
   "file": "HexChalFail",
   "cells": 3,
   "sheets": 1
@@ -91,72 +16,82 @@
  },
  {
   "file": "HexSelSen",
-  "cells": 81,
+  "cells": 77,
   "sheets": 4
  },
  {
   "file": "HexUnit",
-  "cells": 14,
-  "sheets": 1
- },
- {
-  "file": "MainKunisentaku",
   "cells": 49,
   "sheets": 3
  },
  {
-  "file": "SaveLoadShita",
+  "file": "MainKunisentaku",
+  "cells": 51,
+  "sheets": 3
+ },
+ {
+  "file": "SaveLoadUe",
   "cells": 1,
   "sheets": 1
  },
  {
   "file": "SenryakuHannyou",
-  "cells": 150,
-  "sheets": 7
+  "cells": 133,
+  "sheets": 6
  },
  {
   "file": "SenryakuMainShita",
-  "cells": 125,
+  "cells": 124,
   "sheets": 6
  },
  {
   "file": "SenryakuMainUe",
-  "cells": 3,
+  "cells": 10,
   "sheets": 1
  },
  {
   "file": "ShinbuShita",
-  "cells": 5,
+  "cells": 2,
   "sheets": 1
  },
  {
   "file": "ShoInpNum",
-  "cells": 146,
-  "sheets": 7
+  "cells": 126,
+  "sheets": 6
  },
  {
   "file": "ShoMainShita",
-  "cells": 8,
+  "cells": 22,
+  "sheets": 1
+ },
+ {
+  "file": "ShoMainUe",
+  "cells": 1,
   "sheets": 1
  },
  {
   "file": "ShoOptShita",
-  "cells": 3,
+  "cells": 2,
   "sheets": 1
  },
  {
   "file": "SouhaHenseiShita",
-  "cells": 3,
+  "cells": 5,
+  "sheets": 1
+ },
+ {
+  "file": "SouhaShita",
+  "cells": 1,
   "sheets": 1
  },
  {
   "file": "SouhaUe",
-  "cells": 29,
+  "cells": 28,
   "sheets": 2
  },
  {
   "file": "TsuushinShita1",
-  "cells": 2,
+  "cells": 9,
   "sheets": 1
  }
 ]

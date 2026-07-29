@@ -22,9 +22,12 @@ import ncer
 import label_tools as lt
 
 FONT = r'D:\nds\files (1)\Galmuri11.ttf'
-# Galmuri11 is pixel-perfect at multiples of 12, so 24 for tall buttons and 12
-# everywhere else; the in-between sizes are a last resort for cramped boxes.
-SIZES = (24, 12, 11, 10, 9, 8)
+# Galmuri11 is pixel-perfect at multiples of 12 and ONLY there: at 9 or 10 px
+# the strokes of a Hangul syllable merge into a solid block.  So 24 for tall
+# buttons, 12 for everything else, and nothing in between - a label that cannot
+# fit 12 px per character is skipped rather than rendered as mush.
+SIZES = (24, 12)
+MIN_COL = 7
 INSET = 2
 MIN_INK = 8
 _fonts = {}
@@ -70,8 +73,14 @@ def analyse(info, idx):
         r_, g_, b_ = pal[pi]
         return 0.30*r_ + 0.59*g_ + 0.11*b_
 
-    cands = [v for v, n in hist.items() if v != bg and n >= MIN_INK]
-    if not cands: return None
+    # The lettering is the brightest colour that covers a real area.  Picking
+    # the brightest colour outright latches onto a stray highlight inside an
+    # icon, and the "text" box then spans the whole button.
+    nonbg = [(v, n) for v, n in hist.items()
+             if v != bg and v != 0 and n >= MIN_INK]
+    if not nonbg: return None
+    peak = max(n for _, n in nonbg)
+    cands = [v for v, n in nonbg if n >= 0.15 * peak]
     ink = max(cands, key=lum)
 
     # Measure the text over the WHOLE cell, not the inset window: wide banner
@@ -131,20 +140,27 @@ def analyse(info, idx):
     # If the detected text swallows a framed button whole, the colour analysis
     # has latched onto the plate rather than the lettering; repainting it would
     # wipe the button.  Leave such a cell alone.
-    if framed and erase[2]*erase[3] >= 0.85 * room[2]*room[3]: return None
+    # A framed button whose "text" fills the plate edge to edge means the colour
+    # analysis latched onto the plate, not the lettering - repainting would wipe
+    # the button.  Small labels legitimately fill their plate, so only large
+    # ones are rejected.
+    if (framed and room[2]*room[3] > 900
+            and erase[2]*erase[3] >= 0.85 * room[2]*room[3]): return None
     # If a lot of lettering on the same line survives outside the repaint area,
     # the result would read half Korean, half Japanese.  Better to leave it.
-    bgset = set(bgs.values()) | {bg, 0}
-    left = 0
+    # Count only pixels in the LETTERING colour: side rules, brackets and other
+    # decoration are drawn in other shades and legitimately stay put, but a big
+    # share of surviving ink means half the sentence would remain Japanese.
+    left = inside = 0
     for y in range(erase[1], min(H, erase[1] + erase[3])):
         for x in range(rx0, rx1 + 1):
-            if erase[0] <= x < erase[0] + erase[2]: continue
-            s = src[y][x]
-            if s and vals[s[0]*64 + s[1]] not in bgset: left += 1
-    if left > 60: return None
+            if not ipx[y][x]: continue
+            if erase[0] <= x < erase[0] + erase[2]: inside += 1
+            else: left += 1
+    if left > 20 and left > 0.30 * (left + inside): return None
     return W, H, src, bgs, bg, ink, box, room, erase
 
-def grow(src, W, H, vals, box, room, bgset, limit=24):
+def grow(src, W, H, vals, box, room, bgset, limit=6):
     """Widen the bbox until it covers the glyph's decoration.  The layout box is
     the bbox of the core colour only; these labels are drawn with a coloured
     outline and swashes that reach past it, and leaving those behind puts stray
@@ -183,16 +199,46 @@ def backgrounds(src, W, H, vals, box, room, ink, bg):
     # Fall back to the cell's outer ring, which is always outside the lettering
     # - never to colours inside the text row, which are the glyph's own outline
     # and shadow and would erase the kanji into a dark bar.
-    edge = collections.Counter()
-    for y in range(max(0, by - 6), min(H, by + bh + 6)):
-        for x in range(max(0, bx - 6), min(W, bx + bw + 6)):
-            if bx - 2 <= x < bx + bw + 2 and by - 2 <= y < by + bh + 2:
-                continue                       # too close - that is the outline
-            s = src[y][x]
-            if s:
-                v = vals[s[0]*64 + s[1]]
-                if v != ink: edge[v] += 1
-    vfill = edge.most_common(1)[0][0] if edge else bg
+    # What sits behind the lettering?  Sample the halo just outside the glyphs
+    # first: for a caption floating in a transparent window that IS the answer.
+    # But on a button the halo is only the inner bevel line, so when the near
+    # ring has no clear majority, widen out to the whole plate on those rows.
+    near = collections.Counter()
+    for y in range(max(0, by - 4), min(H, by + bh + 4)):
+        for x in range(max(0, bx - 4), min(W, bx + bw + 4)):
+            if bx - 2 <= x < bx + bw + 2 and by - 2 <= y < by + bh + 2: continue
+            if not (rx <= x < rx + rw and ry <= y < ry + rh): continue
+            s_ = src[y][x]
+            if s_:
+                v = vals[s_[0]*64 + s_[1]]
+                if v != ink: near[v] += 1
+    wide = collections.Counter()
+    for y in range(max(0, by), min(H, by + bh)):
+        for x in range(max(0, rx), min(W, rx + rw)):
+            if bx - 2 <= x < bx + bw + 2: continue
+            s_ = src[y][x]
+            if s_:
+                v = vals[s_[0]*64 + s_[1]]
+                if v != ink: wide[v] += 1
+    tot = sum(near.values())
+    # A transparent halo is proof the caption floats in a window, so trust it.
+    # An opaque halo may just be the plate's inner bevel, which is a line and
+    # not the fill - in that case take the colour of the plate as a whole.
+    if tot and near.most_common(1)[0] [0] == 0 and near[0] >= 0.6 * tot:
+        vfill = 0
+    elif wide:
+        vfill = wide.most_common(1)[0][0]
+    elif near:
+        vfill = near.most_common(1)[0][0]
+    else:
+        vfill = bg
+    common = {v for v, _ in (wide or near).most_common(3)}
+    if vfill == 0:
+        # the label floats on transparency: erase it back to transparency for
+        # every row.  Sampling beside the text would pick up the outer glyph's
+        # swash and lay it down as a coloured bar straight through the word.
+        return {y: 0 for y in range(max(0, min(ry, by - PAD)),
+                                    min(H, max(ry + rh, by + bh + PAD)))}
     out = {}
     for y in range(max(0, min(ry, by - PAD)), min(H, max(ry + rh, by + bh + PAD))):
         beside = collections.Counter()
@@ -203,7 +249,11 @@ def backgrounds(src, W, H, vals, box, room, ink, bg):
         # a couple of pixels beside the text are just the outer glyph's outline;
         # only a real margin tells us the plate colour for this row
         if len(sides) >= 12 and sum(beside.values()) >= 12:
-            out[y] = beside.most_common(1)[0][0]; continue
+            v = beside.most_common(1)[0][0]
+            # a bevel highlight beside the text is not the plate colour; only
+            # accept a sample that the plate interior actually uses a lot of
+            if v in common:
+                out[y] = v; continue
         out[y] = vfill
     return out
 
@@ -211,8 +261,14 @@ def layout(text, box, room):
     """split the ink bbox into equal character columns, sized as large as the
     space inside the frame allows.  Returns (size, [(rect, char), ...])."""
     bx, by, bw, bh = box
-    _, ry, _, rh = room
+    rx, ry, rw, rh = room
     n = len(text)
+    # Korean often needs one more syllable than the kanji it replaces.  Rather
+    # than clip it, borrow the empty space beside the original word.
+    need = measure(text, SIZES[-1])
+    if need > bw:
+        bx = max(rx, bx - (need - bw + 1)//2)
+        bw = min(rx + rw - bx, need)
     colw = bw / n
     size = SIZES[-1]
     for s in SIZES:
@@ -239,8 +295,8 @@ def pixels_in(src, W, H, col):
 def render(text, bw, bh, size):
     """bilevel Galmuri render, centred in a bw x bh box"""
     w = measure(text, size)
-    while w > bw and size > SIZES[-1]:
-        size = next(s for s in SIZES if s < size)
+    if w > bw and size > SIZES[-1]:
+        size = SIZES[-1]
         w = measure(text, size)
     img = Image.new('L', (max(bw, 1), max(bh, 1)), 255)
     d = ImageDraw.Draw(img)
@@ -250,7 +306,7 @@ def render(text, bw, bh, size):
 
 PAD = 3      # the original glyph's soft edge sits just outside the ink bbox
 
-def paint(info, src, W, H, region, canvas, ink, bgs, bg, claimed, blocked, own, mine):
+def paint(info, src, W, H, region, canvas, ink, bgs, bg, claimed, blocked, own, bgset):
     """write the rendered region; never touch a pixel another character owns"""
     rx, ry = region
     px = canvas.load(); vals = info['vals']
@@ -262,10 +318,14 @@ def paint(info, src, W, H, region, canvas, ink, bgs, bg, claimed, blocked, own, 
             if s is None or s[0] not in own: continue
             key = s[0]*64 + s[1]
             if key in claimed: continue
-            if key in blocked and s[0] not in mine: continue
             claimed.add(key)
             fill = bgs.get(Y, bg)
             v = ink if px[x, y] < 128 else fill
+            # An atlas pixel that some other cell shows outside its text area is
+            # part of that cell's artwork - a button plate, a frame.  Laying our
+            # background over it punches a hole there.  Drawing a stroke, or
+            # wiping out something that is lettering here, is always safe.
+            if key in blocked and v != ink and vals[key] != ink: continue
             # A transparent pixel must stay transparent.  The same atlas tile is
             # reused by other cells where it shows through as empty space, so
             # touching it paints stray marks across the screen.  The exception is
@@ -296,7 +356,15 @@ def main(dat_in, labels_json, dat_out):
         # Some banks are mid-animation frames that draw only a sliver of the
         # button.  Their text box is far too narrow for the label, and writing
         # into it both looks wrong and damages the tiles the full frame shares.
-        if box[2] < 6 * len(kr.replace('\n', '')): continue
+        widest = max(kr.split('\n'), key=len)
+        if box[2] < MIN_COL * len(widest): continue
+        # And the reverse: a box far wider than the Korean needs means the
+        # colour analysis grabbed an icon or a frame as well as the caption.
+        # Repainting that would wipe out the button, so leave the cell alone.
+        if box[2] > 2.6 * measure(widest, 12): continue
+        # Korean that is much wider than the word it replaces cannot be placed
+        # without crowding the frame, so leave those cells in Japanese.
+        if measure(widest, 12) > 1.5 * box[2]: continue
         size, cols = layout(kr, box, room)
         if not (jp and len(kr) == len(jp) and len(kr) > 1):
             cols = [(cols[0][0][:2] + (box[2], cols[0][0][3]), kr)]
@@ -333,15 +401,19 @@ def main(dat_in, labels_json, dat_out):
     # other labelled cells reuse at a different offset.  Any atlas pixel that
     # such a cell shows outside its own text rectangle must stay untouched, or
     # writes leak out as stray marks elsewhere on the screen.
-    exposed = set()
+    exposed, owned = set(), set()
     for _, W, H, src, _, _, _, _, _, (rx, ry, rx1, ry1) in jobs:
         for y in range(H):
             inside = ry <= y < ry1
             for x in range(W):
                 s = src[y][x]
                 if s is None: continue
-                if inside and rx <= x < rx1: continue
-                exposed.add(s[0]*64 + s[1])
+                k = s[0]*64 + s[1]
+                if inside and rx <= x < rx1: owned.add(k)
+                else: exposed.add(k)
+    # A pixel that some label owns as its own lettering is safe to rewrite even
+    # if a sibling cell shows it a pixel or two off; only pixels that NO label
+    # claims - plates, frames, icons - are off limits.
     blocked = conflicted | exposed
 
     # ---- pass 4: draw
@@ -351,22 +423,33 @@ def main(dat_in, labels_json, dat_out):
     for idx, W, H, src, bgs, bg, ink, size, cols, (rx, ry, rx1, ry1) in jobs:
         canvas = Image.new('L', (rx1 - rx, ry1 - ry), 255)
         for c, ch in cols:
-            canvas.paste(render(ch, c[2], c[3], size), (c[0] - rx, c[1] - ry))
+            # a column narrower than the glyph would clip its left edge, so
+            # render at full width and let neighbours overlap by a pixel
+            w = max(c[2], size)
+            img = render(ch, w, c[3], size)
+            canvas.paste(img, (c[0] - rx - (w - c[2])//2, c[1] - ry))
             drawn += 1
-        bgset = set(bgs.values()) | {bg, 0}
-        own = set(); art = collections.Counter()
+        own = set(); seen = taken = 0
         for y in range(max(0, ry), min(H, ry1)):
             for x in range(max(0, rx), min(W, rx1)):
-                s = src[y][x]
-                if s is None: continue
-                own.add(s[0])
-                if vals[s[0]*64 + s[1]] not in bgset: art[s[0]] += 1
-        # tiles that carry this label's own artwork are ours to rewrite; the
-        # exposure guard is for background tiles borrowed from another cell
-        mine = {t for t in own if art[t] >= 2}
+                s_ = src[y][x]
+                if s_ is None: continue
+                own.add(s_[0]); seen += 1
+                if s_[0]*64 + s_[1] in claimed: taken += 1
+        # A twin cell one pixel away has already rewritten most of these tiles.
+        # Painting the leftover fringe would double the strokes, so stand down -
+        # the twin's Hangul is already what this cell displays.
+        if seen and taken > 0.45 * seen: continue
         paint(info, src, W, H, (rx, ry), canvas, ink, bgs, bg, claimed,
-              blocked, own, mine)
+              blocked, own, set(bgs.values()) | {bg, 0})
     ok = lt.save_ncgr(info, dat_in, dat_out)
+    # record where each cell was allowed to change, so the damage checker can
+    # tell an intended rewrite from atlas leakage into an unrelated cell
+    rd = os.path.join(os.path.dirname(os.path.dirname(dat_out)), 'rects')
+    os.makedirs(rd, exist_ok=True)
+    json.dump({str(j[0]): list(j[9]) for j in jobs},
+              open(os.path.join(rd, os.path.basename(dat_out) + '.json'),
+                   'w', encoding='utf-8'))
     print(json.dumps({'file': os.path.basename(dat_in), 'cells': len(plans),
                       'glyphs': drawn, 'skipped_conflict': skipped,
                       'written': bool(ok)}, ensure_ascii=False))
