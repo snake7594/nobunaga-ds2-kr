@@ -1,0 +1,39 @@
+{
+ "file": "C256_ShinbuUe1",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_ShinbuUe1.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 144,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    0,
+    16,
+    32
+   ]
+  },
+  {
+   "index": 1,
+   "w": 144,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    36,
+    52,
+    68
+   ]
+  },
+  {
+   "index": 2,
+   "w": 144,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    72,
+    88,
+    104
+   ]
+  }
+ ]
+}

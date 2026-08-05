@@ -1,0 +1,285 @@
+# 직접 빌드하기 (BUILD)
+
+이 저장소만 있으면 **원본 ROM 한 개**를 빼고는 아무것도 더 필요하지 않습니다.
+번역문, 폰트, 라벨, 도구가 전부 들어 있고, 빌드 결과는 배포된 릴리즈와
+**바이트 단위로 동일**합니다 (CRC32 `56CBDC0F`).
+
+---
+
+## 1. 준비물
+
+| 항목 | 비고 |
+|---|---|
+| Python 3.9 이상 | Windows / Linux / macOS 모두 동작 |
+| 원본 ROM | `Nobunaga no Yabou DS 2 (Japan)` · CRC32 `72C536BA` · 저장소에 없음 |
+| 파이썬 패키지 | `pip install -r requirements.txt` (Pillow, pyxdelta) |
+
+ROM은 **본인이 소유한 카트리지에서 직접 덤프**해야 합니다. 저작권 때문에
+저장소에는 포함하지 않으며, 요청에도 제공하지 않습니다.
+
+```bash
+git clone https://github.com/snake7594/nobunaga-ds2-kr
+cd nobunaga-ds2-kr
+pip install -r requirements.txt
+```
+
+---
+
+## 2. 한 줄 빌드
+
+ROM을 `rom/nobu2-jp.nds` 에 두고:
+
+```bash
+python build.py
+```
+
+다른 곳에 두었다면 환경변수로 알려 주면 됩니다.
+
+```bash
+# Linux / macOS
+NOBU2_ROM=~/roms/nobunaga2.nds python build.py
+```
+```powershell
+# Windows PowerShell
+$env:NOBU2_ROM="D:\roms\nobunaga2.nds"; python build.py
+```
+
+결과물:
+
+| 경로 | 내용 |
+|---|---|
+| `rom/nobu2-kr.nds` | 한글판 ROM |
+| `nobu2-kr.xdelta` | 배포용 패치 |
+| `_work/` | 중간 산출물 (지워도 됨) |
+
+마지막에 이렇게 나오면 성공입니다.
+
+```
+patched CRC32 56CBDC0F  (matches the published release)
+```
+
+---
+
+## 3. 빌드 단계
+
+`build.py` 는 7단계를 순서대로 실행합니다. `--steps` 로 일부만 다시 돌릴 수 있습니다.
+
+```bash
+python build.py --steps 4,5,6      # 그래픽부터 다시
+```
+
+| # | 단계 | 하는 일 |
+|---|---|---|
+| 1 | check | ROM CRC32 확인 — 다른 덤프면 즉시 중단 |
+| 2 | extract | FNT/FAT를 걸어 파일 282개, ARM9/ARM7, `manifest.json` 추출 |
+| 3 | stage | `data/` 의 번역문·라벨·셀 매니페스트를 `_work/` 로 복사 |
+| 4 | graphics | 스프라이트 라벨을 한글로 다시 그림 → `_work/fs_gfx/obj/` |
+| 5 | assemble | 폰트 생성 + 텍스트 인코딩 + ROM 조립 |
+| 6 | verify | 의도한 곳만 바뀌었는지 3중 검증 |
+| 7 | patch | xdelta 생성 |
+
+---
+
+## 4. 저장소 구성
+
+```
+build.py                 한 줄 빌드 진입점
+requirements.txt
+
+data/                    ROM에서 뽑을 수 없는 것들 — 전부 여기
+  units.json             일본어 원문 유닛 + 줄별 바이트 예산 (v1 추출)
+  units_v2.json          확장 예산 재계산본 (v2/v3 번역이 쓰는 기준)
+  units_extra*.json      추가 발견 유닛
+  snr_units_safe.json    common.snr 에서 "글자가 맞는" 필드 목록
+  code2idx.json          SJIS 코드 → 글리프 인덱스 (ARM9 룩업 테이블 리버싱 결과)
+  translations/
+    out/                 v1 — 원문 길이에 맞춘 축약 번역 (195 파일)
+    out2/                v2 — 확장 예산 자연 번역 (153 파일)
+    out3/                v3 — v1과 같은 예산이되 자연스러운 문장 (47 파일)
+  gfxlabels/             그래픽 라벨 번역 (셀 번호 → 일본어 → 한글)
+  cells/                 셀 중복 매니페스트 (같은 그림을 쓰는 애니메이션 프레임)
+  GLOSSARY.md            번역 용어집
+
+fonts/Galmuri11.ttf      한글 픽셀 폰트 (SIL OFL 1.1)
+
+tools/
+  nobu2_paths.py         모든 경로를 여기서 결정 (환경변수로 덮어쓰기 가능)
+  nds_extract.py         ROM → 파일시스템 + ARM9/ARM7 + manifest
+  krtools.py             한글 인코딩, 음절 풀 할당, 번역 검증
+  msg_rebuild.py         msgsec 컨테이너 재조립 (내부 포인터 재계산)
+  snr_caps.py            common.snr 필드 용량 계산
+  patch_build4.py        본 빌더
+  verify_*.py            검증
+  gfx/                   그래픽 파이프라인 (아래 6장)
+  dev/vendor.py          개발용 — 작업본 도구를 저장소로 이식
+
+images/                  변경 전/후 비교 시트 + 대표 컷
+```
+
+---
+
+## 5. 텍스트가 한글이 되는 원리
+
+게임에는 **12×12 1bpp 비트맵 폰트**가 ARM9 안에 통째로 들어 있습니다
+(오프셋 `0x178E64`, 글리프 3,574개, 글리프당 18바이트, 비트 연속 패킹).
+그 앞 `0x173514` 에는 **SJIS → 글리프 인덱스 룩업 테이블**이 있습니다.
+
+한글은 이렇게 넣습니다.
+
+1. 번역문에 실제로 쓰인 음절을 모두 모읍니다 (약 1,050자).
+2. **한자 글리프 슬롯**(인덱스 351 이상, 약 3,200칸)에 음절을 하나씩 배정합니다.
+3. 배정된 슬롯의 글리프 비트맵을 갈무리11로 그린 한글로 덮어씁니다.
+4. 번역문을 그 슬롯의 SJIS 코드로 인코딩합니다.
+
+즉 게임 입장에서는 여전히 "한자를 출력"하는 것이고, 그 한자 그림이
+한글로 바뀌어 있을 뿐입니다. 그래서 엔진을 전혀 건드리지 않습니다.
+
+배정표는 빌드할 때마다 `_work/syllable_map.json` 으로 남습니다.
+
+### 대사가 들어가는 자리
+
+msgsec 컨테이너는 `u16` 오프셋 테이블 + 레코드로 되어 있어 **문장을 늘릴 수
+있습니다.** 다만 게임의 메시지 버퍼 상한이 있어서, 원본 최대 크기인
+**16,137바이트**를 넘으면 로드가 잘려 진행 중 멈춥니다 (v1.1에서 겪은 문제).
+
+그래서 빌더는 파일별로 이렇게 동작합니다.
+
+1. 유닛마다 v2(확장) → v3(자연스러운 축약) → v1(축약) 순으로 후보를 만든다
+2. 전부 v2로 조립한다
+3. 상한을 넘으면 **품질 손실이 가장 적은 순서로** 한 단계씩 내린다
+4. 상한 이하가 될 때까지 반복
+
+바이트를 가장 많이 줄이는 순서가 아니라 *상대 손실이 가장 적은* 순서로 내리는
+것이 핵심입니다. 그래야 가장 좋아진 문장이 살아남습니다.
+
+### 커진 파일은 어디로 가나
+
+ROM 뒤쪽 미사용 영역으로 옮기고 FAT 엔트리만 고칩니다. 나머지 파일(사운드
+8MB, 배경, 무비)은 **원래 오프셋에 바이트 단위로 그대로** 있습니다.
+헤더의 used-size(`0x80`)와 CRC16(`0x15E`)만 다시 계산합니다.
+
+---
+
+## 6. 그래픽 라벨이 한글이 되는 원리
+
+메뉴 버튼 글자는 폰트가 아니라 **스프라이트에 구워진 그림**입니다.
+NCLR(팔레트) / NCGR(타일) / NCER(셀)을 파싱해 셀을 복원한 뒤, 글자 영역을
+찾아 지우고 갈무리11로 다시 그립니다.
+
+여기에 함정이 두 개 있습니다.
+
+**① UI 문자는 글리프 아틀라스입니다.**
+`確定` 과 `確認` 이 `確` 타일을 공유합니다. 문자열 단위로 그리면 서로를
+덮어써 글자가 부서집니다. 그래서 **글자 단위로 같은 칸에** 그려서 공유
+글리프가 항상 같은 음절을 받게 합니다 — 한자음이 1:1이라 성립합니다
+(`確定`→확정, `確認`→확인, 둘 다 `確`→`확`).
+서로 다른 글자가 같은 픽셀을 요구하면 그 라벨은 통째로 건너뜁니다.
+
+**② 갈무리11은 픽셀 폰트입니다.**
+안티에일리어싱을 끄고 12px 또는 24px에서만 렌더링해야 합니다.
+9~11px로 줄이면 자모 획이 뭉개져 덩어리가 됩니다.
+
+### 자동 손상 검출
+
+스프라이트가 타일을 공유하기 때문에, **한 라벨의 쓰기가 엉뚱한 셀에 구멍을
+내는 것**이 이 작업 결함의 본질이었습니다. 그래서 패처가 셀마다 *수정을
+허용한 사각형*을 `_work/fs_gfx/rects/` 에 기록하고, 검사기가 그 밖에서 바뀐
+픽셀을 전수 집계합니다.
+
+```bash
+python tools/gfx/check_damage.py
+```
+
+### 비교 시트 다시 만들기
+
+```bash
+python tools/gfx/make_preview.py _work/preview     # 변경된 셀 전수 비교
+python tools/gfx/make_showcase.py tools/gfx/showcase_picks.json out/
+python tools/gfx/compare_cells.py SenryakuMainShita out.png 0,5,20 4
+```
+
+---
+
+## 7. 검증
+
+`build.py` 6단계가 세 가지를 봅니다.
+
+| 검사 | 확인하는 것 |
+|---|---|
+| `verify_snr_safe.py` | `common.snr` 의 **텍스트 필드 밖 바이트가 0개** 변경 — 무장 얼굴 번호 같은 이진 필드 보호 |
+| `verify_layout2.py` | FNT·ARM7 동일, FAT 282엔트리 겹침 0, 허용 구역 밖 변경 0 |
+| `check_damage.py` | 그래픽에서 허용 사각형 밖으로 샌 픽셀 집계 |
+
+마지막에 결과 ROM의 CRC32를 릴리즈본과 대조합니다.
+
+`check_damage.py` 가 보고하는 "leaked" 픽셀 대부분은 **같은 그림을 공유하는
+쌍둥이 셀**이 번역 결과를 함께 보여주는 정상 동작입니다. 실제 손상인지는
+`compare_cells.py` 로 눈으로 확인해야 합니다.
+
+---
+
+## 8. 번역을 고치고 싶다면
+
+### 대사
+
+`data/translations/out2/out_*.json` 를 고치고 4~7단계를 다시 돌립니다.
+
+```json
+[{"id": "msgsec01#0012", "jp": "原文", "kr": "번역{BR}두 번째 줄"}]
+```
+
+- `{BR}` 이 줄바꿈입니다. **줄 수는 원문과 같아야** 합니다.
+- 줄마다 바이트 예산이 있고 (`data/units_v2.json` 의 `lines`), 넘으면 그 후보는
+  버려지고 다음 후보(v3 → v1)가 쓰입니다.
+- 한글 1자 = 2바이트입니다.
+
+### 그래픽 라벨
+
+`data/gfxlabels/<파일>.json` 을 고칩니다.
+
+```json
+[{"cell": 12, "jp": "決定", "kr": "결정"}]
+```
+
+같은 한자는 같은 한글로 옮겨야 합니다 — 글리프를 공유하기 때문입니다.
+한글이 원문보다 1.5배 넘게 넓거나, 글자당 폭이 7px 미만이면 자동으로
+건너뜁니다.
+
+### 제외된 파일 되살리기
+
+`tools/gfx/apply_all.py` 의 `SKIP` 과 `skipped()` 를 보세요. 일러스트에 캡션이
+얹힌 `C256_*` 계열과 `Common`·`ComTutor`·`SaveLoadShita`·`Ending` 은 글자와
+그림을 분리할 수 없어 제외했습니다. 되살리려면 그 파일들의 라벨 검출을
+먼저 개선해야 합니다.
+
+---
+
+## 9. 자주 나오는 문제
+
+**`ROM CRC32 mismatch`**
+다른 덤프입니다. 트리밍되었거나 이미 패치된 ROM일 수 있습니다.
+`72C536BA` 인 원본이 필요합니다.
+
+**`Font not found`**
+`fonts/Galmuri11.ttf` 가 있어야 합니다. Git LFS 없이 그냥 들어 있으니
+클론이 제대로 됐는지 확인하세요.
+
+**`ModuleNotFoundError: PIL`**
+`pip install -r requirements.txt`
+
+**CRC가 `56CBDC0F` 과 다르게 나옴**
+`data/` 나 `tools/` 를 수정했다면 정상입니다. 수정한 적이 없는데 다르다면
+`_work/` 를 지우고 처음부터 다시 돌려 보세요.
+
+**빌드가 느림**
+그래픽 단계가 가장 오래 걸립니다. 파일 단위로 병렬 실행하므로 코어가 많을수록
+빠릅니다 (`tools/gfx/apply_all.py` 의 `WORKERS`).
+
+---
+
+## 10. 라이선스
+
+- 도구와 번역문: 자유롭게 쓰고 고치고 재배포해도 됩니다. 출처만 밝혀 주세요.
+- 폰트 [Galmuri](https://github.com/quiple/galmuri): SIL Open Font License 1.1
+- 게임 저작권은 KOEI(現 코에이테크모)에 있습니다. **ROM은 배포하지 마세요.**
+  패치는 본인이 소유한 사본에만 적용하십시오.

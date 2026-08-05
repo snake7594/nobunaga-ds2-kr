@@ -5,8 +5,12 @@
  - report anything suspicious so it can be fixed rather than silently applied
 """
 import json, glob, os
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-LAB = r'D:\nds\roms\NOBU2\_work\gfxlabels'
+LAB = _os.path.join(WORK, 'gfxlabels')
 
 def is_jp(s):
     return any('\u3041' <= c <= '\u30ff' or '\u4e00' <= c <= '\u9fff' for c in s)
@@ -15,7 +19,7 @@ def is_kr(s):
 
 tot = files = bad = longer = 0
 issues = []
-for p in sorted(glob.glob(LAB + r'\*.json')):
+for p in sorted(glob.glob(_os.path.join(LAB, '*.json'))):
     n = os.path.basename(p)
     if n.startswith('_'):
         continue

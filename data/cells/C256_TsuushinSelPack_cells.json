@@ -1,0 +1,111 @@
+{
+ "file": "C256_TsuushinSelPack",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_TsuushinSelPack.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 64,
+   "h": 96,
+   "nsprites": 2,
+   "tiles": [
+    0,
+    32
+   ]
+  },
+  {
+   "index": 1,
+   "w": 64,
+   "h": 96,
+   "nsprites": 2,
+   "tiles": [
+    48,
+    80
+   ]
+  },
+  {
+   "index": 2,
+   "w": 64,
+   "h": 96,
+   "nsprites": 2,
+   "tiles": [
+    96,
+    128
+   ]
+  },
+  {
+   "index": 3,
+   "w": 64,
+   "h": 96,
+   "nsprites": 2,
+   "tiles": [
+    144,
+    176
+   ]
+  },
+  {
+   "index": 4,
+   "w": 64,
+   "h": 96,
+   "nsprites": 2,
+   "tiles": [
+    192,
+    224
+   ]
+  },
+  {
+   "index": 5,
+   "w": 64,
+   "h": 96,
+   "nsprites": 2,
+   "tiles": [
+    240,
+    272
+   ]
+  },
+  {
+   "index": 6,
+   "w": 64,
+   "h": 96,
+   "same_as": 5
+  },
+  {
+   "index": 7,
+   "w": 64,
+   "h": 96,
+   "same_as": 5
+  },
+  {
+   "index": 8,
+   "w": 64,
+   "h": 96,
+   "same_as": 5
+  },
+  {
+   "index": 9,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    432
+   ]
+  },
+  {
+   "index": 10,
+   "w": 16,
+   "h": 16,
+   "same_as": 9
+  },
+  {
+   "index": 11,
+   "w": 16,
+   "h": 16,
+   "same_as": 9
+  },
+  {
+   "index": 12,
+   "w": 16,
+   "h": 16,
+   "same_as": 9
+  }
+ ]
+}

@@ -1,0 +1,105 @@
+{
+ "file": "C256_ShinbuShita1",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_ShinbuShita1.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 64,
+   "h": 64,
+   "nsprites": 1,
+   "tiles": [
+    0
+   ]
+  },
+  {
+   "index": 1,
+   "w": 64,
+   "h": 64,
+   "same_as": 0
+  },
+  {
+   "index": 2,
+   "w": 64,
+   "h": 64,
+   "same_as": 0
+  },
+  {
+   "index": 3,
+   "w": 64,
+   "h": 64,
+   "same_as": 0
+  },
+  {
+   "index": 4,
+   "w": 64,
+   "h": 64,
+   "same_as": 0
+  },
+  {
+   "index": 5,
+   "w": 64,
+   "h": 64,
+   "nsprites": 1,
+   "tiles": [
+    32
+   ]
+  },
+  {
+   "index": 6,
+   "w": 64,
+   "h": 64,
+   "same_as": 5
+  },
+  {
+   "index": 7,
+   "w": 64,
+   "h": 64,
+   "same_as": 5
+  },
+  {
+   "index": 8,
+   "w": 64,
+   "h": 64,
+   "same_as": 5
+  },
+  {
+   "index": 9,
+   "w": 64,
+   "h": 64,
+   "same_as": 5
+  },
+  {
+   "index": 10,
+   "w": 64,
+   "h": 64,
+   "nsprites": 1,
+   "tiles": [
+    64
+   ]
+  },
+  {
+   "index": 11,
+   "w": 64,
+   "h": 64,
+   "same_as": 10
+  },
+  {
+   "index": 12,
+   "w": 64,
+   "h": 64,
+   "same_as": 10
+  },
+  {
+   "index": 13,
+   "w": 64,
+   "h": 64,
+   "same_as": 10
+  },
+  {
+   "index": 14,
+   "w": 64,
+   "h": 64,
+   "same_as": 10
+  }
+ ]
+}

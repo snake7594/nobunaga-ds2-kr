@@ -3,16 +3,19 @@
 Expands duplicate cells (animation frames sharing identical art) via the dump manifest."""
 import os, sys, json, glob, shutil, subprocess
 import concurrent.futures as cf
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
 # each .dat is an independent subprocess; the box is not the bottleneck, the
 # per-pixel Python loops are, so run as many as the machine will take
 WORKERS = max(4, (os.cpu_count() or 4) * 2)
 
-WORK = r'D:\nds\roms\NOBU2\_work'
-SRC_OBJ = WORK + r'\fs\obj'
-OUT_OBJ = WORK + r'\fs_gfx\obj'
-LABELS = WORK + r'\gfxlabels'
-DUMPS = [WORK + r'\gfxdump2', WORK + r'\gfxdump']
+SRC_OBJ = _os.path.join(WORK, 'fs', 'obj')
+OUT_OBJ = _os.path.join(WORK, 'fs_gfx', 'obj')
+LABELS = _os.path.join(WORK, 'gfxlabels')
+DUMPS = [_os.path.join(WORK, 'gfxdump2'), _os.path.join(WORK, 'gfxdump')]
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 
 def manifest_for(name):
@@ -107,7 +110,7 @@ def run_one(job):
 def main():
     os.makedirs(OUT_OBJ, exist_ok=True)
     jobs = [j for j in (prepare(lp)
-                        for lp in sorted(glob.glob(LABELS + r'\*.json'))) if j]
+                        for lp in sorted(glob.glob(_os.path.join(LABELS, '*.json')))) if j]
     total_files = total_labels = 0
     with cf.ThreadPoolExecutor(max_workers=WORKERS) as ex:
         for name, n, out, ok in ex.map(run_one, jobs):

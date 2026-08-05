@@ -17,10 +17,13 @@ import concurrent.futures as cf
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ncer
 import label_tools as lt
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
-SRC = WORK + r'\fs\obj'
-OUT = WORK + r'\fs_gfx\obj'
+SRC = _os.path.join(WORK, 'fs', 'obj')
+OUT = _os.path.join(WORK, 'fs_gfx', 'obj')
 NOISE = 8      # a handful of pixels is antialias spill, not damage
 
 def audit(name):
@@ -59,7 +62,7 @@ def audit(name):
 def main():
     allbad = []
     names = [os.path.splitext(os.path.basename(p))[0]
-             for p in sorted(glob.glob(OUT + r'\*.dat'))]
+             for p in sorted(glob.glob(_os.path.join(OUT, '*.dat')))]
     with cf.ProcessPoolExecutor() as ex:
         results = list(ex.map(audit, names))
     for name, bad in zip(names, results):

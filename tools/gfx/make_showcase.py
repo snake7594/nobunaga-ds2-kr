@@ -15,8 +15,11 @@ from PIL import Image, ImageDraw, ImageFont
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ncer
 import label_tools as lt
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
 SCALE = 3
 GAP = 10
 PAD = 14
@@ -25,7 +28,7 @@ FG = (232, 232, 236)
 DIM = (150, 150, 158)
 ACC = (150, 235, 160)
 ARROW = (120, 120, 130)
-UI_FONT = r'D:\nds\files (1)\Galmuri11.ttf'
+UI_FONT = FONT
 
 _cache = {}
 def load(name, patched):

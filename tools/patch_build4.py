@@ -10,10 +10,11 @@ import json, glob, os, struct, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import krtools, msg_rebuild
 import snr_caps as _snr
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
-ROM_IN = r'D:\nds\roms\NOBU2\Nobunaga no Yabou DS 2 (Japan).nds'
-ROM_OUT = r'D:\nds\roms\NOBU2\Nobunaga no Yabou DS 2 (Korean).nds'
 ARM9_ROM_OFF = 0x4000
 FONT_OFF = 0x178E64
 
@@ -51,25 +52,25 @@ def crc16(data):
     return crc
 
 def main():
-    units_v1 = {u['id']: u for u in json.load(open(WORK + r'\units.json', encoding='utf-8'))}
+    units_v1 = {u['id']: u for u in json.load(open(_os.path.join(WORK, 'units.json'), encoding='utf-8'))}
     for ex in (r'\units_extra.json', r'\units_extra2.json', r'\units_extra3.json'):
         if os.path.exists(WORK + ex):
             for u in json.load(open(WORK + ex, encoding='utf-8')):
                 units_v1[u['id']] = u
-    units_v2 = {u['id']: u for u in json.load(open(WORK + r'\units_v2.json', encoding='utf-8'))}
+    units_v2 = {u['id']: u for u in json.load(open(_os.path.join(WORK, 'units_v2.json'), encoding='utf-8'))}
 
     tr1, tr2, tr3 = {}, {}, {}
-    for p in sorted(glob.glob(WORK + r'\tr\out\out_*.json')):
+    for p in sorted(glob.glob(_os.path.join(WORK, 'tr', 'out', 'out_*.json'))):
         try:
             for it in json.load(open(p, encoding='utf-8')): tr1[it['id']] = it.get('kr', '')
         except Exception: pass
-    for p in sorted(glob.glob(WORK + r'\tr\out2\out_*.json')):
+    for p in sorted(glob.glob(_os.path.join(WORK, 'tr', 'out2', 'out_*.json'))):
         try:
             for it in json.load(open(p, encoding='utf-8')): tr2[it['id']] = it.get('kr', '')
         except Exception: pass
     # v3: same byte budget as the terse fallback, but written naturally.
     # It therefore REPLACES v1 as the compact option, never the expanded one.
-    for p in sorted(glob.glob(WORK + r'\tr\out3\out_*.json')):
+    for p in sorted(glob.glob(_os.path.join(WORK, 'tr', 'out3', 'out_*.json'))):
         try:
             for it in json.load(open(p, encoding='utf-8')): tr3[it['id']] = it.get('kr', '')
         except Exception: pass
@@ -102,7 +103,7 @@ def main():
     # ---- common.snr: use the SAFE field list (halfwidth-kana bytes there are
     # binary record data, not text; v1.0-v1.4 overwrote them and scrambled busho
     # records, e.g. face indices). Only genuine null-terminated SJIS fields. ----
-    snr_safe = json.load(open(WORK + r'\snr_units_safe.json', encoding='utf-8'))
+    snr_safe = json.load(open(_os.path.join(WORK, 'snr_units_safe.json'), encoding='utf-8'))
     kr_by_off = {}
     for uid, u in units_v1.items():
         if u['src'] != 'common.snr': continue
@@ -137,16 +138,16 @@ def main():
     assert len(sylls) <= len(pool), f'pool exceeded {len(sylls)}'
     smap = {s: pool[i] for i, s in enumerate(sorted(sylls))}
     json.dump({s: hex(c) for s, c in smap.items()},
-              open(WORK + r'\syllable_map.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
+              open(_os.path.join(WORK, 'syllable_map.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
 
-    arm9 = bytearray(open(WORK + r'\bin\arm9.bin', 'rb').read())
+    arm9 = bytearray(open(_os.path.join(WORK, 'bin', 'arm9.bin'), 'rb').read())
     for s, code in smap.items():
         i = c2i[code]
         arm9[FONT_OFF + i*18: FONT_OFF + i*18 + 18] = krtools.rows_to_bytes(krtools.render_glyph12(s))
     # Minimal-write policy: emit the translation plus ONE null terminator and
     # leave every other byte of the field untouched, so an over-estimated
     # capacity can never clobber neighbouring binary data.
-    snr = bytearray(open(WORK + r'\fs\scenario\common.snr', 'rb').read())
+    snr = bytearray(open(_os.path.join(WORK, 'fs', 'scenario', 'common.snr'), 'rb').read())
     for uid, (u, kr) in inplace.items():
         enc = krtools.encode_line(kr.replace('{BR}', ''), smap)
         cap = u['lines'][0]
@@ -161,7 +162,7 @@ def main():
             buf[off + len(enc)] = 0
     print(f'font glyphs {len(smap)}, in-place units {len(inplace)}')
 
-    manifest = json.load(open(WORK + r'\manifest.json'))
+    manifest = json.load(open(_os.path.join(WORK, 'manifest.json')))
     msg_sizes = {os.path.basename(f['path']): f['size']
                  for f in manifest['files'] if '/msg/msgsec' in f['path']}
     # The loader reads a whole msgsec file into a pre-allocated buffer with no
@@ -180,7 +181,7 @@ def main():
     stats = {'v2': 0, 'v3': 0, 'v1': 0, 'jp': 0}
     demoted = []
     for name in sorted(by_src):
-        data = open(WORK + r'\fs\msg' + '\\' + name, 'rb').read()
+        data = open(_os.path.join(WORK, 'fs', 'msg') + '\\' + name, 'rb').read()
         orig_size = len(data)
         cap = MAX_ORIG
         units = by_src[name]
@@ -246,12 +247,12 @@ def main():
         grow = len(nf) - orig_size
         print(f'  {name}: {orig_size} -> {len(nf)} ({grow:+d}, demotions={demotions})')
     print('msgsec unit sources:', stats)
-    json.dump(demoted, open(WORK + r'\demoted.json', 'w', encoding='utf-8'),
+    json.dump(demoted, open(_os.path.join(WORK, 'demoted.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, indent=0)
     print('units needing a concise-but-natural rewrite:', len(demoted))
 
     # ---- graphics: label-translated .dat files (same size, pixel data only) ----
-    gfx_dir = WORK + r'\fs_gfx\obj'
+    gfx_dir = _os.path.join(WORK, 'fs_gfx', 'obj')
     gfx_files = {}
     if os.path.isdir(gfx_dir):
         for fn in sorted(os.listdir(gfx_dir)):

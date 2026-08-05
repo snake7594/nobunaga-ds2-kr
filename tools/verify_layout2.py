@@ -2,11 +2,14 @@
 """Verify v1.3: only arm9 / msgsec / common.snr content, msg FAT entries,
 header used-size+CRC, and the previously-unused ROM tail may differ."""
 import json, struct, os
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
-a = open(r'D:\nds\roms\NOBU2\Nobunaga no Yabou DS 2 (Japan).nds', 'rb').read()
-b = open(r'D:\nds\roms\NOBU2\Nobunaga no Yabou DS 2 (Korean).nds', 'rb').read()
-manifest = json.load(open(WORK + r'\manifest.json'))
+a = open(ROM_IN, 'rb').read()
+b = open(ROM_OUT, 'rb').read()
+manifest = json.load(open(_os.path.join(WORK, 'manifest.json')))
 fat_off = manifest['fat_off']
 fnt_off, fnt_size = struct.unpack_from('<II', a, 0x40)
 orig_used = struct.unpack_from('<I', a, 0x80)[0]
@@ -20,7 +23,7 @@ allowed = [(0x4000, 0x4000 + 0x1A1098)]                    # arm9
 allowed.append((0x80, 0x84))                                # used size
 allowed.append((0x15E, 0x160))                              # header CRC
 allowed.append((orig_used, len(a)))                         # previously unused tail
-gfx_dir = WORK + r'\fs_gfx\obj'
+gfx_dir = _os.path.join(WORK, 'fs_gfx', 'obj')
 gfx_names = set(os.listdir(gfx_dir)) if os.path.isdir(gfx_dir) else set()
 for f in manifest['files']:
     p = f['path']

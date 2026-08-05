@@ -1,0 +1,64 @@
+{
+ "file": "C256_TsuushinGetBushou",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_TsuushinGetBushou.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 96,
+   "h": 128,
+   "nsprites": 4,
+   "tiles": [
+    0,
+    32,
+    48,
+    80
+   ]
+  },
+  {
+   "index": 1,
+   "w": 96,
+   "h": 128,
+   "nsprites": 4,
+   "tiles": [
+    96,
+    128,
+    144,
+    176
+   ]
+  },
+  {
+   "index": 2,
+   "w": 96,
+   "h": 128,
+   "nsprites": 4,
+   "tiles": [
+    192,
+    224,
+    240,
+    272
+   ]
+  },
+  {
+   "index": 3,
+   "w": 96,
+   "h": 64,
+   "nsprites": 2,
+   "tiles": [
+    288,
+    320
+   ]
+  },
+  {
+   "index": 4,
+   "w": 96,
+   "h": 64,
+   "same_as": 3
+  },
+  {
+   "index": 5,
+   "w": 96,
+   "h": 64,
+   "same_as": 3
+  }
+ ]
+}

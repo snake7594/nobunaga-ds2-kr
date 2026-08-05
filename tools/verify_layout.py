@@ -2,13 +2,16 @@
 """Verify the patched ROM differs ONLY inside expected regions (arm9, msgsec, common.snr)
 and that header/FNT/FAT are byte-identical to the original."""
 import json, struct
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
-a = open(r'D:\nds\roms\NOBU2\Nobunaga no Yabou DS 2 (Japan).nds', 'rb').read()
-b = open(r'D:\nds\roms\NOBU2\Nobunaga no Yabou DS 2 (Korean).nds', 'rb').read()
+a = open(ROM_IN, 'rb').read()
+b = open(ROM_OUT, 'rb').read()
 print('sizes equal:', len(a) == len(b))
 
-manifest = json.load(open(WORK + r'\manifest.json'))
+manifest = json.load(open(_os.path.join(WORK, 'manifest.json')))
 allowed = [(0x4000, 0x4000 + 0x1A1098)]   # arm9
 for f in manifest['files']:
     p = f['path']

@@ -6,8 +6,11 @@ Output: units.json with per-line budgets and decoded template text using tokens:
   {BR} newline, {C0}-{C9} color, kana-toggles dropped silently.
 """
 import struct, glob, os, json, unicodedata
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
 HW = '｡｢｣､･ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ'
 
 def is_lead(c): return 0x81 <= c <= 0x9F or 0xE0 <= c <= 0xEF
@@ -83,7 +86,7 @@ def add(src, off, ln, cap, jp, lines):
                   'cap': cap, 'jp': jp, 'lines': lines})
 
 # ---- msgsec ----
-for path in sorted(glob.glob(WORK + r'\fs\msg\msgsec*.dat')):
+for path in sorted(glob.glob(_os.path.join(WORK, 'fs', 'msg', 'msgsec*.dat'))):
     name = os.path.basename(path)
     d = open(path, 'rb').read()
     first = struct.unpack_from('<H', d, 0)[0]
@@ -107,7 +110,7 @@ for path in sorted(glob.glob(WORK + r'\fs\msg\msgsec*.dat')):
         i = end
 
 # ---- common.snr ----
-d = open(WORK + r'\fs\scenario\common.snr', 'rb').read()
+d = open(_os.path.join(WORK, 'fs', 'scenario', 'common.snr'), 'rb').read()
 i = 0
 n = len(d)
 def find_runs(data, lo, hi):
@@ -147,7 +150,7 @@ for (a, b) in find_runs(d, 0, n):
     add('common.snr', a, len(raw), len(raw) + bonus, txt, [len(raw) + bonus])
 
 # ---- arm9 ----
-d = open(WORK + r'\bin\arm9.bin', 'rb').read()
+d = open(_os.path.join(WORK, 'bin', 'arm9.bin'), 'rb').read()
 for lo, hi in [(0x1914A0, 0x1914B0), (0x195830, 0x195B10), (0x1A0220, 0x1A0830)]:
     i = lo
     while i < hi:
@@ -171,7 +174,7 @@ for lo, hi in [(0x1914A0, 0x1914B0), (0x195830, 0x195B10), (0x1A0220, 0x1A0830)]
 
 print('total units:', len(units))
 print('total jp bytes:', sum(u['len'] for u in units))
-json.dump(units, open(WORK + r'\units.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
+json.dump(units, open(_os.path.join(WORK, 'units.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
 import collections
 cnt = collections.Counter(u['src'] for u in units)
 for k in sorted(cnt): print(f'  {k}: {cnt[k]}')

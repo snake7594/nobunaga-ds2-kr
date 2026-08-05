@@ -1,7 +1,11 @@
 import os, struct, sys, json
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-ROM = r"D:\nds\roms\NOBU2\Nobunaga no Yabou DS 2 (Japan).nds"
-OUT = r"D:\nds\roms\NOBU2\_work\fs"
+ROM = ROM_IN
+OUT = _os.path.join(WORK, 'fs')
 
 data = open(ROM, "rb").read()
 
@@ -62,7 +66,7 @@ for fid, path in files:
     manifest.append({"id": fid, "path": path, "start": s, "size": e - s})
 
 # also dump arm9/arm7/overlays
-bin_out = r"D:\nds\roms\NOBU2\_work\bin"
+bin_out = _os.path.join(WORK, 'bin')
 os.makedirs(bin_out, exist_ok=True)
 open(os.path.join(bin_out, "arm9.bin"), "wb").write(data[arm9_off:arm9_off+arm9_size])
 open(os.path.join(bin_out, "arm7.bin"), "wb").write(data[arm7_off:arm7_off+arm7_size])
@@ -78,5 +82,5 @@ if ov9_size:
 
 json.dump({"title": title, "gamecode": gamecode, "files": manifest,
            "fat_off": fat_off, "fnt_off": fnt_off, "nfiles": nfiles},
-          open(r"D:\nds\roms\NOBU2\_work\manifest.json", "w"), indent=1)
+          open(_os.path.join(WORK, 'manifest.json'), "w"), indent=1)
 print("Extracted OK")

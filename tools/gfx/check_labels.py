@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 import json, glob, os
-for p in sorted(glob.glob(r'D:\nds\roms\NOBU2\_work\gfxlabels\*.json')):
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
+for p in sorted(glob.glob(_os.path.join(WORK, 'gfxlabels', '*.json'))):
     n = os.path.basename(p)
     if n.startswith('_'):
         continue

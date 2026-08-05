@@ -5,6 +5,10 @@ import struct, os, sys, json
 from PIL import Image, ImageFont, ImageDraw
 import nitro_gfx as ng
 import ncer
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
 BOUNDARY = 4   # mappingMode 2 => 128-byte boundary => 4 tiles per index step (4bpp)
 
@@ -66,7 +70,7 @@ def color_hist(info, bank_idx, boundary=BOUNDARY):
     return hist
 
 def redraw_cell_text(info, bank_idx, text, box, ink, bg,
-                     font_path=r'D:\nds\files (1)\Galmuri11.ttf', font_size=12,
+                     font_path=FONT, font_size=12,
                      boundary=BOUNDARY):
     """Clear `box` (x,y,w,h) to `bg` and draw `text` in `ink` inside the cell,
     writing results back into info['vals'] (the NCGR pixel array)."""
@@ -118,7 +122,7 @@ def save_ncgr(info, path_in, path_out):
     return False
 
 if __name__ == '__main__':
-    p = r'D:\nds\roms\NOBU2\_work\fs\obj\SenryakuMainShita.dat'
+    p = _os.path.join(WORK, 'fs', 'obj', 'SenryakuMainShita.dat')
     OUT = r'C:\Users\Jay\AppData\Local\Temp\claude\D--nds-roms-NOBU2\9265263d-585d-4b0c-acac-1cfa176f7263\scratchpad\gfx\cells'
     info = ncer.load(p)
     print('cell 0 palette histogram:', sorted(color_hist(info, 0).items(), key=lambda kv: -kv[1])[:6])

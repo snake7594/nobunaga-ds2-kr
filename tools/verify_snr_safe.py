@@ -3,15 +3,18 @@
 every changed byte must lie inside a safe field, and no byte in the
 0xA1-0xDF binary range may have been altered."""
 import json, bisect
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
-orig = open(WORK + r'\fs\scenario\common.snr', 'rb').read()
-manifest = json.load(open(WORK + r'\manifest.json'))
-rom = open(r'D:\nds\roms\NOBU2\Nobunaga no Yabou DS 2 (Korean).nds', 'rb').read()
+orig = open(_os.path.join(WORK, 'fs', 'scenario', 'common.snr'), 'rb').read()
+manifest = json.load(open(_os.path.join(WORK, 'manifest.json')))
+rom = open(ROM_OUT, 'rb').read()
 f = next(x for x in manifest['files'] if x['path'] == '/scenario/common.snr')
 new = rom[f['start']: f['start'] + f['size']]
 
-safe = json.load(open(WORK + r'\snr_units_safe.json', encoding='utf-8'))
+safe = json.load(open(_os.path.join(WORK, 'snr_units_safe.json'), encoding='utf-8'))
 spans = sorted((s['off'], s['off'] + s['cap']) for s in safe)
 
 def inside(i):
@@ -30,7 +33,7 @@ hw = [i for i in changed if 0xA1 <= orig[i] <= 0xDF and new[i] == 0x20]
 print('binary bytes (0xA1-0xDF) overwritten with space:', len(hw))
 
 # spot-check the records the user reported
-smap = json.load(open(WORK + r'\syllable_map.json', encoding='utf-8'))
+smap = json.load(open(_os.path.join(WORK, 'syllable_map.json'), encoding='utf-8'))
 rev = {int(v, 16): k for k, v in smap.items()}
 def dec(b):
     out, i = '', 0

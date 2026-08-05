@@ -1,0 +1,359 @@
+{
+ "file": "SouhaShita",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\SouhaShita.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 184,
+   "h": 32,
+   "nsprites": 6,
+   "tiles": [
+    0,
+    2,
+    3,
+    4,
+    12,
+    20
+   ]
+  },
+  {
+   "index": 1,
+   "w": 184,
+   "h": 32,
+   "same_as": 0
+  },
+  {
+   "index": 2,
+   "w": 184,
+   "h": 32,
+   "nsprites": 6,
+   "tiles": [
+    0,
+    2,
+    3,
+    28,
+    36,
+    44
+   ]
+  },
+  {
+   "index": 3,
+   "w": 184,
+   "h": 32,
+   "same_as": 0
+  },
+  {
+   "index": 4,
+   "w": 184,
+   "h": 32,
+   "same_as": 0
+  },
+  {
+   "index": 5,
+   "w": 184,
+   "h": 32,
+   "nsprites": 6,
+   "tiles": [
+    3,
+    4,
+    12,
+    20,
+    52,
+    54
+   ]
+  },
+  {
+   "index": 6,
+   "w": 184,
+   "h": 32,
+   "same_as": 5
+  },
+  {
+   "index": 7,
+   "w": 184,
+   "h": 32,
+   "nsprites": 6,
+   "tiles": [
+    3,
+    28,
+    36,
+    44,
+    52,
+    54
+   ]
+  },
+  {
+   "index": 8,
+   "w": 184,
+   "h": 32,
+   "same_as": 5
+  },
+  {
+   "index": 9,
+   "w": 184,
+   "h": 32,
+   "same_as": 5
+  },
+  {
+   "index": 10,
+   "w": 32,
+   "h": 24,
+   "nsprites": 2,
+   "tiles": [
+    55,
+    57
+   ]
+  },
+  {
+   "index": 11,
+   "w": 32,
+   "h": 24,
+   "nsprites": 2,
+   "tiles": [
+    58,
+    60
+   ]
+  },
+  {
+   "index": 12,
+   "w": 32,
+   "h": 24,
+   "nsprites": 2,
+   "tiles": [
+    61,
+    63
+   ]
+  },
+  {
+   "index": 13,
+   "w": 32,
+   "h": 24,
+   "nsprites": 2,
+   "tiles": [
+    64,
+    66
+   ]
+  },
+  {
+   "index": 14,
+   "w": 40,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    67,
+    71
+   ]
+  },
+  {
+   "index": 15,
+   "w": 40,
+   "h": 32,
+   "same_as": 14
+  },
+  {
+   "index": 16,
+   "w": 40,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    72,
+    76
+   ]
+  },
+  {
+   "index": 17,
+   "w": 40,
+   "h": 32,
+   "same_as": 14
+  },
+  {
+   "index": 18,
+   "w": 40,
+   "h": 32,
+   "same_as": 14
+  },
+  {
+   "index": 19,
+   "w": 40,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    77,
+    81
+   ]
+  },
+  {
+   "index": 20,
+   "w": 40,
+   "h": 32,
+   "same_as": 19
+  },
+  {
+   "index": 21,
+   "w": 40,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    82,
+    86
+   ]
+  },
+  {
+   "index": 22,
+   "w": 40,
+   "h": 32,
+   "same_as": 19
+  },
+  {
+   "index": 23,
+   "w": 40,
+   "h": 32,
+   "same_as": 19
+  },
+  {
+   "index": 24,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    87
+   ]
+  },
+  {
+   "index": 25,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    88
+   ]
+  },
+  {
+   "index": 26,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    89
+   ]
+  },
+  {
+   "index": 27,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    90
+   ]
+  },
+  {
+   "index": 28,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    91
+   ]
+  },
+  {
+   "index": 29,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    92
+   ]
+  },
+  {
+   "index": 30,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    93
+   ]
+  },
+  {
+   "index": 31,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    94
+   ]
+  },
+  {
+   "index": 32,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    95
+   ]
+  },
+  {
+   "index": 33,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    96
+   ]
+  },
+  {
+   "index": 34,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    97
+   ]
+  },
+  {
+   "index": 35,
+   "w": 24,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    98,
+    100
+   ]
+  },
+  {
+   "index": 36,
+   "w": 24,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    101,
+    103
+   ]
+  },
+  {
+   "index": 37,
+   "w": 48,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    104,
+    108
+   ]
+  },
+  {
+   "index": 38,
+   "w": 48,
+   "h": 32,
+   "same_as": 37
+  },
+  {
+   "index": 39,
+   "w": 42,
+   "h": 48,
+   "nsprites": 4,
+   "tiles": [
+    110,
+    114
+   ]
+  }
+ ]
+}

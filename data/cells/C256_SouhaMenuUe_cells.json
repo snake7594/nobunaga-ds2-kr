@@ -1,0 +1,31 @@
+{
+ "file": "C256_SouhaMenuUe",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_SouhaMenuUe.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 96,
+   "h": 48,
+   "nsprites": 5,
+   "tiles": [
+    0,
+    16,
+    24,
+    28,
+    32
+   ]
+  },
+  {
+   "index": 1,
+   "w": 208,
+   "h": 64,
+   "nsprites": 4,
+   "tiles": [
+    36,
+    68,
+    100,
+    116
+   ]
+  }
+ ]
+}

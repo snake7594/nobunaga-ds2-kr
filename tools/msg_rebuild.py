@@ -6,11 +6,14 @@
 Round-trip identity: rebuild with original unit bytes == original file.
 """
 import struct, json, os
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
 
 def load_units():
-    units = json.load(open(WORK + r'\units.json', encoding='utf-8'))
+    units = json.load(open(_os.path.join(WORK, 'units.json'), encoding='utf-8'))
     for ex in (r'\units_extra.json', r'\units_extra3.json'):
         p = WORK + ex
         if os.path.exists(p):
@@ -136,7 +139,7 @@ if __name__ == '__main__':
     by_src = load_units()
     ok = 0
     for name in sorted(by_src):
-        path = WORK + r'\fs\msg' + '\\' + name
+        path = _os.path.join(WORK, 'fs', 'msg') + '\\' + name
         data = open(path, 'rb').read()
         units = by_src[name]
         info = parse_file(name, data)

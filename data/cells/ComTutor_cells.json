@@ -1,0 +1,164 @@
+{
+ "file": "ComTutor",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\ComTutor.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 216,
+   "h": 54,
+   "nsprites": 8,
+   "tiles": [
+    0,
+    8,
+    16
+   ]
+  },
+  {
+   "index": 1,
+   "w": 216,
+   "h": 56,
+   "nsprites": 10,
+   "tiles": [
+    0,
+    8,
+    16,
+    24,
+    25
+   ]
+  },
+  {
+   "index": 2,
+   "w": 216,
+   "h": 56,
+   "nsprites": 10,
+   "tiles": [
+    0,
+    8,
+    16,
+    24,
+    25
+   ]
+  },
+  {
+   "index": 3,
+   "w": 216,
+   "h": 64,
+   "nsprites": 8,
+   "tiles": [
+    0,
+    8,
+    16
+   ]
+  },
+  {
+   "index": 4,
+   "w": 216,
+   "h": 112,
+   "nsprites": 20,
+   "tiles": [
+    0,
+    8,
+    16,
+    26,
+    27,
+    28,
+    29
+   ]
+  },
+  {
+   "index": 5,
+   "w": 216,
+   "h": 112,
+   "nsprites": 20,
+   "tiles": [
+    0,
+    8,
+    16,
+    26,
+    27,
+    28,
+    29
+   ]
+  },
+  {
+   "index": 6,
+   "w": 48,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    31,
+    35
+   ]
+  },
+  {
+   "index": 7,
+   "w": 48,
+   "h": 32,
+   "same_as": 6
+  },
+  {
+   "index": 8,
+   "w": 48,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    37,
+    41
+   ]
+  },
+  {
+   "index": 9,
+   "w": 48,
+   "h": 32,
+   "same_as": 8
+  },
+  {
+   "index": 10,
+   "w": 48,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    43,
+    45
+   ]
+  },
+  {
+   "index": 11,
+   "w": 48,
+   "h": 32,
+   "same_as": 10
+  },
+  {
+   "index": 12,
+   "w": 48,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    49,
+    53
+   ]
+  },
+  {
+   "index": 13,
+   "w": 48,
+   "h": 32,
+   "same_as": 12
+  },
+  {
+   "index": 14,
+   "w": 48,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    55,
+    59
+   ]
+  },
+  {
+   "index": 15,
+   "w": 48,
+   "h": 32,
+   "same_as": 14
+  }
+ ]
+}

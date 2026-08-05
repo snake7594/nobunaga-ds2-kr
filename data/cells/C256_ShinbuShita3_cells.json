@@ -1,0 +1,15 @@
+{
+ "file": "C256_ShinbuShita3",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_ShinbuShita3.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    0
+   ]
+  }
+ ]
+}

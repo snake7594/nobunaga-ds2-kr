@@ -10,10 +10,13 @@ from PIL import Image, ImageDraw
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ncer
 import label_tools as lt
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
-SRC = WORK + r'\fs\obj'
-PATCHED = WORK + r'\fs_gfx\obj'
+SRC = _os.path.join(WORK, 'fs', 'obj')
+PATCHED = _os.path.join(WORK, 'fs_gfx', 'obj')
 SCALE = 3
 PER_SHEET = 24
 GAP = 6
@@ -87,7 +90,7 @@ def main(outdir):
     os.makedirs(outdir, exist_ok=True)
     index, total = [], 0
     names = [os.path.splitext(os.path.basename(p))[0]
-             for p in sorted(glob.glob(PATCHED + r'\*.dat'))]
+             for p in sorted(glob.glob(_os.path.join(PATCHED, '*.dat')))]
     with cf.ProcessPoolExecutor() as ex:
         for r in ex.map(one, [(n, outdir) for n in names]):
             if not r: continue
@@ -99,4 +102,4 @@ def main(outdir):
     print(f'files: {len(index)}  changed cells: {total}')
 
 if __name__ == '__main__':
-    main(sys.argv[1] if len(sys.argv) > 1 else WORK + r'\preview')
+    main(sys.argv[1] if len(sys.argv) > 1 else _os.path.join(WORK, 'preview'))

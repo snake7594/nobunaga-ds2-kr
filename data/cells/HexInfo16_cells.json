@@ -1,0 +1,515 @@
+{
+ "file": "HexInfo16",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\HexInfo16.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 32,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    0,
+    4
+   ]
+  },
+  {
+   "index": 1,
+   "w": 32,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    4,
+    8
+   ]
+  },
+  {
+   "index": 2,
+   "w": 32,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    4,
+    12
+   ]
+  },
+  {
+   "index": 3,
+   "w": 32,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    4,
+    16
+   ]
+  },
+  {
+   "index": 4,
+   "w": 32,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    4,
+    20
+   ]
+  },
+  {
+   "index": 5,
+   "w": 32,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    4,
+    24
+   ]
+  },
+  {
+   "index": 6,
+   "w": 32,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    4,
+    28
+   ]
+  },
+  {
+   "index": 7,
+   "w": 32,
+   "h": 32,
+   "same_as": 0
+  },
+  {
+   "index": 8,
+   "w": 32,
+   "h": 32,
+   "same_as": 1
+  },
+  {
+   "index": 9,
+   "w": 32,
+   "h": 32,
+   "same_as": 2
+  },
+  {
+   "index": 10,
+   "w": 32,
+   "h": 32,
+   "same_as": 3
+  },
+  {
+   "index": 11,
+   "w": 32,
+   "h": 32,
+   "same_as": 4
+  },
+  {
+   "index": 12,
+   "w": 32,
+   "h": 32,
+   "same_as": 5
+  },
+  {
+   "index": 13,
+   "w": 32,
+   "h": 32,
+   "same_as": 6
+  },
+  {
+   "index": 14,
+   "w": 32,
+   "h": 32,
+   "same_as": 0
+  },
+  {
+   "index": 15,
+   "w": 32,
+   "h": 32,
+   "same_as": 1
+  },
+  {
+   "index": 16,
+   "w": 32,
+   "h": 32,
+   "same_as": 2
+  },
+  {
+   "index": 17,
+   "w": 32,
+   "h": 32,
+   "same_as": 3
+  },
+  {
+   "index": 18,
+   "w": 32,
+   "h": 32,
+   "same_as": 4
+  },
+  {
+   "index": 19,
+   "w": 32,
+   "h": 32,
+   "same_as": 5
+  },
+  {
+   "index": 20,
+   "w": 32,
+   "h": 32,
+   "same_as": 6
+  },
+  {
+   "index": 21,
+   "w": 32,
+   "h": 32,
+   "same_as": 0
+  },
+  {
+   "index": 22,
+   "w": 32,
+   "h": 32,
+   "same_as": 1
+  },
+  {
+   "index": 23,
+   "w": 32,
+   "h": 32,
+   "same_as": 2
+  },
+  {
+   "index": 24,
+   "w": 32,
+   "h": 32,
+   "same_as": 3
+  },
+  {
+   "index": 25,
+   "w": 32,
+   "h": 32,
+   "same_as": 4
+  },
+  {
+   "index": 26,
+   "w": 32,
+   "h": 32,
+   "same_as": 5
+  },
+  {
+   "index": 27,
+   "w": 32,
+   "h": 32,
+   "same_as": 6
+  },
+  {
+   "index": 28,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    32
+   ]
+  },
+  {
+   "index": 29,
+   "w": 32,
+   "h": 32,
+   "same_as": 28
+  },
+  {
+   "index": 30,
+   "w": 64,
+   "h": 16,
+   "nsprites": 3,
+   "tiles": [
+    40,
+    41,
+    43
+   ]
+  },
+  {
+   "index": 31,
+   "w": 64,
+   "h": 16,
+   "nsprites": 3,
+   "tiles": [
+    45,
+    46,
+    48
+   ]
+  },
+  {
+   "index": 32,
+   "w": 64,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    50
+   ]
+  },
+  {
+   "index": 33,
+   "w": 42,
+   "h": 8,
+   "nsprites": 2,
+   "tiles": [
+    58
+   ]
+  },
+  {
+   "index": 34,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    59
+   ]
+  },
+  {
+   "index": 35,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    60
+   ]
+  },
+  {
+   "index": 36,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    61
+   ]
+  },
+  {
+   "index": 37,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    62
+   ]
+  },
+  {
+   "index": 38,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    63
+   ]
+  },
+  {
+   "index": 39,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    64
+   ]
+  },
+  {
+   "index": 40,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    65
+   ]
+  },
+  {
+   "index": 41,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    66
+   ]
+  },
+  {
+   "index": 42,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    67
+   ]
+  },
+  {
+   "index": 43,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    68
+   ]
+  },
+  {
+   "index": 44,
+   "w": 32,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    69
+   ]
+  },
+  {
+   "index": 45,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    71
+   ]
+  },
+  {
+   "index": 46,
+   "w": 8,
+   "h": 8,
+   "nsprites": 1,
+   "tiles": [
+    72
+   ]
+  },
+  {
+   "index": 47,
+   "w": 8,
+   "h": 8,
+   "nsprites": 1,
+   "tiles": [
+    73
+   ]
+  },
+  {
+   "index": 48,
+   "w": 8,
+   "h": 8,
+   "nsprites": 1,
+   "tiles": [
+    74
+   ]
+  },
+  {
+   "index": 49,
+   "w": 8,
+   "h": 8,
+   "nsprites": 1,
+   "tiles": [
+    75
+   ]
+  },
+  {
+   "index": 50,
+   "w": 8,
+   "h": 8,
+   "nsprites": 1,
+   "tiles": [
+    76
+   ]
+  },
+  {
+   "index": 51,
+   "w": 8,
+   "h": 8,
+   "nsprites": 1,
+   "tiles": [
+    77
+   ]
+  },
+  {
+   "index": 52,
+   "w": 8,
+   "h": 8,
+   "nsprites": 1,
+   "tiles": [
+    78
+   ]
+  },
+  {
+   "index": 53,
+   "w": 8,
+   "h": 8,
+   "nsprites": 1,
+   "tiles": [
+    79
+   ]
+  },
+  {
+   "index": 54,
+   "w": 8,
+   "h": 8,
+   "nsprites": 1,
+   "tiles": [
+    80
+   ]
+  },
+  {
+   "index": 55,
+   "w": 8,
+   "h": 8,
+   "nsprites": 1,
+   "tiles": [
+    81
+   ]
+  },
+  {
+   "index": 56,
+   "w": 8,
+   "h": 8,
+   "same_as": 46
+  },
+  {
+   "index": 57,
+   "w": 8,
+   "h": 8,
+   "same_as": 47
+  },
+  {
+   "index": 58,
+   "w": 8,
+   "h": 8,
+   "same_as": 48
+  },
+  {
+   "index": 59,
+   "w": 8,
+   "h": 8,
+   "same_as": 49
+  },
+  {
+   "index": 60,
+   "w": 8,
+   "h": 8,
+   "same_as": 50
+  },
+  {
+   "index": 61,
+   "w": 8,
+   "h": 8,
+   "same_as": 51
+  },
+  {
+   "index": 62,
+   "w": 8,
+   "h": 8,
+   "same_as": 52
+  },
+  {
+   "index": 63,
+   "w": 8,
+   "h": 8,
+   "same_as": 53
+  },
+  {
+   "index": 64,
+   "w": 8,
+   "h": 8,
+   "same_as": 54
+  },
+  {
+   "index": 65,
+   "w": 8,
+   "h": 8,
+   "same_as": 55
+  }
+ ]
+}

@@ -1,0 +1,232 @@
+{
+ "file": "C256_ShinbuShita2",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_ShinbuShita2.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    0
+   ]
+  },
+  {
+   "index": 1,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    8
+   ]
+  },
+  {
+   "index": 2,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    16
+   ]
+  },
+  {
+   "index": 3,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    24
+   ]
+  },
+  {
+   "index": 4,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    32
+   ]
+  },
+  {
+   "index": 5,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    40
+   ]
+  },
+  {
+   "index": 6,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    48
+   ]
+  },
+  {
+   "index": 7,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    56
+   ]
+  },
+  {
+   "index": 8,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    64
+   ]
+  },
+  {
+   "index": 9,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    72
+   ]
+  },
+  {
+   "index": 10,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    80
+   ]
+  },
+  {
+   "index": 11,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    88
+   ]
+  },
+  {
+   "index": 12,
+   "w": 64,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    96
+   ]
+  },
+  {
+   "index": 13,
+   "w": 64,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    112
+   ]
+  },
+  {
+   "index": 14,
+   "w": 64,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    128
+   ]
+  },
+  {
+   "index": 15,
+   "w": 64,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    144
+   ]
+  },
+  {
+   "index": 16,
+   "w": 64,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    160
+   ]
+  },
+  {
+   "index": 17,
+   "w": 64,
+   "h": 32,
+   "same_as": 16
+  },
+  {
+   "index": 18,
+   "w": 64,
+   "h": 32,
+   "same_as": 16
+  },
+  {
+   "index": 19,
+   "w": 64,
+   "h": 32,
+   "same_as": 16
+  },
+  {
+   "index": 20,
+   "w": 64,
+   "h": 32,
+   "same_as": 16
+  },
+  {
+   "index": 21,
+   "w": 40,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    240,
+    248
+   ]
+  },
+  {
+   "index": 22,
+   "w": 40,
+   "h": 32,
+   "same_as": 21
+  },
+  {
+   "index": 23,
+   "w": 40,
+   "h": 32,
+   "same_as": 21
+  },
+  {
+   "index": 24,
+   "w": 40,
+   "h": 32,
+   "same_as": 21
+  },
+  {
+   "index": 25,
+   "w": 40,
+   "h": 32,
+   "same_as": 21
+  },
+  {
+   "index": 26,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    290
+   ]
+  },
+  {
+   "index": 27,
+   "w": 32,
+   "h": 32,
+   "same_as": 26
+  }
+ ]
+}

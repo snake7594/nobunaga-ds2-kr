@@ -1,0 +1,69 @@
+{
+ "file": "TsuushinShita2",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\TsuushinShita2.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 64,
+   "h": 64,
+   "nsprites": 1,
+   "tiles": [
+    0
+   ]
+  },
+  {
+   "index": 1,
+   "w": 64,
+   "h": 64,
+   "nsprites": 1,
+   "tiles": [
+    32
+   ]
+  },
+  {
+   "index": 2,
+   "w": 64,
+   "h": 64,
+   "nsprites": 1,
+   "tiles": [
+    64
+   ]
+  },
+  {
+   "index": 3,
+   "w": 64,
+   "h": 64,
+   "nsprites": 1,
+   "tiles": [
+    96
+   ]
+  },
+  {
+   "index": 4,
+   "w": 64,
+   "h": 64,
+   "nsprites": 1,
+   "tiles": [
+    128
+   ]
+  },
+  {
+   "index": 5,
+   "w": 64,
+   "h": 64,
+   "same_as": 4
+  },
+  {
+   "index": 6,
+   "w": 64,
+   "h": 64,
+   "same_as": 4
+  },
+  {
+   "index": 7,
+   "w": 64,
+   "h": 64,
+   "same_as": 4
+  }
+ ]
+}

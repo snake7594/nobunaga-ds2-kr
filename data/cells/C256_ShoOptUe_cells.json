@@ -1,0 +1,17 @@
+{
+ "file": "C256_ShoOptUe",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_ShoOptUe.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 144,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    0,
+    16,
+    32
+   ]
+  }
+ ]
+}

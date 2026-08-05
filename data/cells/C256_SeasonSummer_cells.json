@@ -1,0 +1,73 @@
+{
+ "file": "C256_SeasonSummer",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_SeasonSummer.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 96,
+   "h": 64,
+   "nsprites": 2,
+   "tiles": [
+    0,
+    32
+   ]
+  },
+  {
+   "index": 1,
+   "w": 256,
+   "h": 32,
+   "nsprites": 4,
+   "tiles": [
+    48
+   ]
+  },
+  {
+   "index": 2,
+   "w": 256,
+   "h": 32,
+   "nsprites": 4,
+   "tiles": [
+    64
+   ]
+  },
+  {
+   "index": 3,
+   "w": 256,
+   "h": 32,
+   "same_as": 2
+  },
+  {
+   "index": 4,
+   "w": 256,
+   "h": 32,
+   "same_as": 2
+  },
+  {
+   "index": 5,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    112
+   ]
+  },
+  {
+   "index": 6,
+   "w": 16,
+   "h": 16,
+   "same_as": 5
+  },
+  {
+   "index": 7,
+   "w": 16,
+   "h": 16,
+   "same_as": 5
+  },
+  {
+   "index": 8,
+   "w": 16,
+   "h": 16,
+   "same_as": 5
+  }
+ ]
+}

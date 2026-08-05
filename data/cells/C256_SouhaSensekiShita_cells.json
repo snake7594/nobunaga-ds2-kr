@@ -1,0 +1,147 @@
+{
+ "file": "C256_SouhaSensekiShita",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_SouhaSensekiShita.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 64,
+   "h": 48,
+   "nsprites": 3,
+   "tiles": [
+    0,
+    16,
+    20
+   ]
+  },
+  {
+   "index": 1,
+   "w": 64,
+   "h": 48,
+   "nsprites": 3,
+   "tiles": [
+    24,
+    40,
+    44
+   ]
+  },
+  {
+   "index": 2,
+   "w": 64,
+   "h": 48,
+   "nsprites": 3,
+   "tiles": [
+    48,
+    64,
+    68
+   ]
+  },
+  {
+   "index": 3,
+   "w": 64,
+   "h": 48,
+   "nsprites": 3,
+   "tiles": [
+    72,
+    88,
+    92
+   ]
+  },
+  {
+   "index": 4,
+   "w": 64,
+   "h": 48,
+   "nsprites": 3,
+   "tiles": [
+    96,
+    112,
+    116
+   ]
+  },
+  {
+   "index": 5,
+   "w": 64,
+   "h": 48,
+   "nsprites": 3,
+   "tiles": [
+    120,
+    136,
+    140
+   ]
+  },
+  {
+   "index": 6,
+   "w": 64,
+   "h": 48,
+   "nsprites": 3,
+   "tiles": [
+    144,
+    160,
+    164
+   ]
+  },
+  {
+   "index": 7,
+   "w": 64,
+   "h": 48,
+   "nsprites": 3,
+   "tiles": [
+    168,
+    184,
+    188
+   ]
+  },
+  {
+   "index": 8,
+   "w": 64,
+   "h": 48,
+   "nsprites": 3,
+   "tiles": [
+    192,
+    208,
+    212
+   ]
+  },
+  {
+   "index": 9,
+   "w": 64,
+   "h": 48,
+   "same_as": 8
+  },
+  {
+   "index": 10,
+   "w": 64,
+   "h": 48,
+   "same_as": 8
+  },
+  {
+   "index": 11,
+   "w": 64,
+   "h": 48,
+   "same_as": 8
+  },
+  {
+   "index": 12,
+   "w": 64,
+   "h": 48,
+   "same_as": 8
+  },
+  {
+   "index": 13,
+   "w": 64,
+   "h": 48,
+   "same_as": 8
+  },
+  {
+   "index": 14,
+   "w": 64,
+   "h": 48,
+   "same_as": 8
+  },
+  {
+   "index": 15,
+   "w": 64,
+   "h": 48,
+   "same_as": 8
+  }
+ ]
+}

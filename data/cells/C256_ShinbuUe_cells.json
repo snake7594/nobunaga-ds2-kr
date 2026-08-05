@@ -1,0 +1,96 @@
+{
+ "file": "C256_ShinbuUe",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_ShinbuUe.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 144,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    0,
+    16,
+    32
+   ]
+  },
+  {
+   "index": 1,
+   "w": 144,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    36,
+    52,
+    68
+   ]
+  },
+  {
+   "index": 2,
+   "w": 144,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    72,
+    88,
+    104
+   ]
+  },
+  {
+   "index": 3,
+   "w": 144,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    108,
+    124,
+    140
+   ]
+  },
+  {
+   "index": 4,
+   "w": 144,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    144,
+    160,
+    176
+   ]
+  },
+  {
+   "index": 5,
+   "w": 144,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    180,
+    196,
+    212
+   ]
+  },
+  {
+   "index": 6,
+   "w": 144,
+   "h": 32,
+   "same_as": 5
+  },
+  {
+   "index": 7,
+   "w": 144,
+   "h": 32,
+   "same_as": 5
+  },
+  {
+   "index": 8,
+   "w": 144,
+   "h": 32,
+   "same_as": 5
+  },
+  {
+   "index": 9,
+   "w": 144,
+   "h": 32,
+   "same_as": 5
+  }
+ ]
+}

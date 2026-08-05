@@ -1,0 +1,574 @@
+[
+{
+"id": 20000,
+"src": "msgsec00.dat",
+"off": 255,
+"len": 2,
+"cap": 2,
+"jp": "俺",
+"lines": [
+2
+]
+},
+{
+"id": 20001,
+"src": "msgsec00.dat",
+"off": 422,
+"len": 2,
+"cap": 2,
+"jp": "俺",
+"lines": [
+2
+]
+},
+{
+"id": 20002,
+"src": "msgsec00.dat",
+"off": 542,
+"len": 2,
+"cap": 2,
+"jp": "母",
+"lines": [
+2
+]
+},
+{
+"id": 20003,
+"src": "msgsec00.dat",
+"off": 558,
+"len": 2,
+"cap": 2,
+"jp": "父",
+"lines": [
+2
+]
+},
+{
+"id": 20004,
+"src": "msgsec00.dat",
+"off": 1287,
+"len": 2,
+"cap": 2,
+"jp": "女",
+"lines": [
+2
+]
+},
+{
+"id": 20005,
+"src": "msgsec00.dat",
+"off": 1292,
+"len": 2,
+"cap": 2,
+"jp": "男",
+"lines": [
+2
+]
+},
+{
+"id": 20006,
+"src": "msgsec00.dat",
+"off": 1526,
+"len": 2,
+"cap": 2,
+"jp": "殿",
+"lines": [
+2
+]
+},
+{
+"id": 20007,
+"src": "msgsec00.dat",
+"off": 1537,
+"len": 2,
+"cap": 2,
+"jp": "殿",
+"lines": [
+2
+]
+},
+{
+"id": 20008,
+"src": "msgsec00.dat",
+"off": 1545,
+"len": 2,
+"cap": 2,
+"jp": "様",
+"lines": [
+2
+]
+},
+{
+"id": 20009,
+"src": "msgsec00.dat",
+"off": 1707,
+"len": 2,
+"cap": 2,
+"jp": "殿",
+"lines": [
+2
+]
+},
+{
+"id": 20010,
+"src": "msgsec00.dat",
+"off": 1837,
+"len": 2,
+"cap": 2,
+"jp": "殿",
+"lines": [
+2
+]
+},
+{
+"id": 20011,
+"src": "msgsec00.dat",
+"off": 1865,
+"len": 2,
+"cap": 2,
+"jp": "殿",
+"lines": [
+2
+]
+},
+{
+"id": 20012,
+"src": "msgsec00.dat",
+"off": 1878,
+"len": 2,
+"cap": 2,
+"jp": "殿",
+"lines": [
+2
+]
+},
+{
+"id": 20013,
+"src": "msgsec00.dat",
+"off": 1886,
+"len": 2,
+"cap": 2,
+"jp": "様",
+"lines": [
+2
+]
+},
+{
+"id": 20014,
+"src": "msgsec00.dat",
+"off": 1966,
+"len": 2,
+"cap": 2,
+"jp": "殿",
+"lines": [
+2
+]
+},
+{
+"id": 20015,
+"src": "msgsec00.dat",
+"off": 2009,
+"len": 2,
+"cap": 2,
+"jp": "殿",
+"lines": [
+2
+]
+},
+{
+"id": 20016,
+"src": "msgsec00.dat",
+"off": 2238,
+"len": 2,
+"cap": 2,
+"jp": "殿",
+"lines": [
+2
+]
+},
+{
+"id": 20017,
+"src": "msgsec00.dat",
+"off": 2275,
+"len": 2,
+"cap": 2,
+"jp": "殿",
+"lines": [
+2
+]
+},
+{
+"id": 20018,
+"src": "msgsec03.dat",
+"off": 8853,
+"len": 2,
+"cap": 2,
+"jp": "軍",
+"lines": [
+2
+]
+},
+{
+"id": 20019,
+"src": "msgsec03.dat",
+"off": 9248,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20020,
+"src": "msgsec03.dat",
+"off": 12019,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20021,
+"src": "msgsec03.dat",
+"off": 13488,
+"len": 2,
+"cap": 2,
+"jp": "軍",
+"lines": [
+2
+]
+},
+{
+"id": 20022,
+"src": "msgsec03.dat",
+"off": 13546,
+"len": 2,
+"cap": 2,
+"jp": "軍",
+"lines": [
+2
+]
+},
+{
+"id": 20023,
+"src": "msgsec04.dat",
+"off": 748,
+"len": 2,
+"cap": 2,
+"jp": "人",
+"lines": [
+2
+]
+},
+{
+"id": 20024,
+"src": "msgsec04.dat",
+"off": 1282,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20025,
+"src": "msgsec04.dat",
+"off": 1305,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20026,
+"src": "msgsec04.dat",
+"off": 1328,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20027,
+"src": "msgsec04.dat",
+"off": 1351,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20028,
+"src": "msgsec04.dat",
+"off": 1374,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20029,
+"src": "msgsec04.dat",
+"off": 1387,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20030,
+"src": "msgsec04.dat",
+"off": 2897,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20031,
+"src": "msgsec04.dat",
+"off": 2964,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20032,
+"src": "msgsec04.dat",
+"off": 3030,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20033,
+"src": "msgsec04.dat",
+"off": 3103,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20034,
+"src": "msgsec04.dat",
+"off": 3176,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20035,
+"src": "msgsec04.dat",
+"off": 3416,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20036,
+"src": "msgsec04.dat",
+"off": 3874,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20037,
+"src": "msgsec04.dat",
+"off": 4133,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20038,
+"src": "msgsec04.dat",
+"off": 4165,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20039,
+"src": "msgsec04.dat",
+"off": 4197,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20040,
+"src": "msgsec04.dat",
+"off": 4232,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20041,
+"src": "msgsec04.dat",
+"off": 4267,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20042,
+"src": "msgsec04.dat",
+"off": 6238,
+"len": 2,
+"cap": 2,
+"jp": "人",
+"lines": [
+2
+]
+},
+{
+"id": 20043,
+"src": "msgsec04.dat",
+"off": 7041,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20044,
+"src": "msgsec04.dat",
+"off": 8345,
+"len": 2,
+"cap": 2,
+"jp": "人",
+"lines": [
+2
+]
+},
+{
+"id": 20045,
+"src": "msgsec04.dat",
+"off": 8968,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20046,
+"src": "msgsec04.dat",
+"off": 8973,
+"len": 2,
+"cap": 2,
+"jp": "人",
+"lines": [
+2
+]
+},
+{
+"id": 20047,
+"src": "msgsec04.dat",
+"off": 9036,
+"len": 2,
+"cap": 2,
+"jp": "金",
+"lines": [
+2
+]
+},
+{
+"id": 20048,
+"src": "msgsec04.dat",
+"off": 9582,
+"len": 2,
+"cap": 2,
+"jp": "人",
+"lines": [
+2
+]
+},
+{
+"id": 20049,
+"src": "msgsec04.dat",
+"off": 15298,
+"len": 2,
+"cap": 2,
+"jp": "回",
+"lines": [
+2
+]
+},
+{
+"id": 20050,
+"src": "msgsec06.dat",
+"off": 2235,
+"len": 2,
+"cap": 2,
+"jp": "名",
+"lines": [
+2
+]
+},
+{
+"id": 20051,
+"src": "msgsec06.dat",
+"off": 2346,
+"len": 2,
+"cap": 2,
+"jp": "時",
+"lines": [
+2
+]
+}
+]

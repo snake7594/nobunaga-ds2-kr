@@ -1,0 +1,219 @@
+{
+ "file": "SouhaHenseiShita",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\SouhaHenseiShita.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 184,
+   "h": 32,
+   "nsprites": 6,
+   "tiles": [
+    0,
+    2,
+    3,
+    4,
+    12,
+    20
+   ]
+  },
+  {
+   "index": 1,
+   "w": 184,
+   "h": 32,
+   "same_as": 0
+  },
+  {
+   "index": 2,
+   "w": 184,
+   "h": 32,
+   "nsprites": 6,
+   "tiles": [
+    0,
+    2,
+    3,
+    28,
+    36,
+    44
+   ]
+  },
+  {
+   "index": 3,
+   "w": 184,
+   "h": 32,
+   "same_as": 0
+  },
+  {
+   "index": 4,
+   "w": 184,
+   "h": 32,
+   "same_as": 0
+  },
+  {
+   "index": 5,
+   "w": 92,
+   "h": 32,
+   "nsprites": 6,
+   "tiles": [
+    52,
+    60,
+    68,
+    69,
+    70,
+    71
+   ]
+  },
+  {
+   "index": 6,
+   "w": 92,
+   "h": 32,
+   "same_as": 5
+  },
+  {
+   "index": 7,
+   "w": 92,
+   "h": 32,
+   "nsprites": 4,
+   "tiles": [
+    72,
+    80,
+    88,
+    90
+   ]
+  },
+  {
+   "index": 8,
+   "w": 100,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    92,
+    96,
+    97
+   ]
+  },
+  {
+   "index": 9,
+   "w": 100,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    105,
+    109,
+    110
+   ]
+  },
+  {
+   "index": 10,
+   "w": 100,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    118,
+    122,
+    123
+   ]
+  },
+  {
+   "index": 11,
+   "w": 100,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    131,
+    135,
+    136
+   ]
+  },
+  {
+   "index": 12,
+   "w": 100,
+   "h": 32,
+   "nsprites": 3,
+   "tiles": [
+    144,
+    148,
+    149
+   ]
+  },
+  {
+   "index": 13,
+   "w": 82,
+   "h": 16,
+   "nsprites": 3,
+   "tiles": [
+    157,
+    159
+   ]
+  },
+  {
+   "index": 14,
+   "w": 32,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    161
+   ]
+  },
+  {
+   "index": 15,
+   "w": 32,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    163
+   ]
+  },
+  {
+   "index": 16,
+   "w": 32,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    165
+   ]
+  },
+  {
+   "index": 17,
+   "w": 48,
+   "h": 32,
+   "nsprites": 2,
+   "tiles": [
+    167,
+    171
+   ]
+  },
+  {
+   "index": 18,
+   "w": 48,
+   "h": 32,
+   "same_as": 17
+  },
+  {
+   "index": 19,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    173
+   ]
+  },
+  {
+   "index": 20,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    174
+   ]
+  },
+  {
+   "index": 21,
+   "w": 16,
+   "h": 16,
+   "nsprites": 1,
+   "tiles": [
+    175
+   ]
+  }
+ ]
+}

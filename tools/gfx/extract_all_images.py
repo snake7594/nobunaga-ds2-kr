@@ -15,9 +15,12 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import nitro_gfx as ng
 import ncer
 import label_tools as lt
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
-OUT = WORK + r'\images'
+OUT = _os.path.join(WORK, 'images')
 
 def sheet_png(info, path_out, per_row=32, scale=2):
     vals, pal = info['vals'], info['pal']
@@ -40,7 +43,7 @@ def sheet_png(info, path_out, per_row=32, scale=2):
 def main():
     os.makedirs(OUT, exist_ok=True)
     manifest = []
-    files = sorted(glob.glob(WORK + r'\fs\obj\*.dat') + glob.glob(WORK + r'\fs\bg\*.dat'))
+    files = sorted(glob.glob(_os.path.join(WORK, 'fs', 'obj', '*.dat')) + glob.glob(_os.path.join(WORK, 'fs', 'bg', '*.dat')))
     for path in files:
         if path.endswith('Info.dat'):
             continue

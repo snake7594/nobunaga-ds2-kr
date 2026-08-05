@@ -1,0 +1,46 @@
+{
+ "file": "C256_Face2",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\C256_Face2.dat",
+ "cells": [
+  {
+   "index": 1,
+   "w": 40,
+   "h": 56,
+   "nsprites": 6,
+   "tiles": [
+    0,
+    8,
+    10,
+    14,
+    15,
+    17
+   ]
+  },
+  {
+   "index": 2,
+   "w": 40,
+   "h": 56,
+   "same_as": 1
+  },
+  {
+   "index": 3,
+   "w": 40,
+   "h": 56,
+   "nsprites": 6,
+   "tiles": [
+    36,
+    44,
+    46,
+    50,
+    51,
+    53
+   ]
+  },
+  {
+   "index": 4,
+   "w": 40,
+   "h": 56,
+   "same_as": 3
+  }
+ ]
+}

@@ -1,0 +1,354 @@
+[
+{
+"id": 21000,
+"src": "common.snr",
+"off": 12148,
+"len": 2,
+"cap": 8,
+"jp": "岡",
+"lines": [
+8
+]
+},
+{
+"id": 21001,
+"src": "common.snr",
+"off": 12216,
+"len": 2,
+"cap": 8,
+"jp": "岡",
+"lines": [
+8
+]
+},
+{
+"id": 21002,
+"src": "common.snr",
+"off": 12284,
+"len": 2,
+"cap": 8,
+"jp": "岡",
+"lines": [
+8
+]
+},
+{
+"id": 21003,
+"src": "common.snr",
+"off": 14116,
+"len": 2,
+"cap": 3,
+"jp": "瑛",
+"lines": [
+3
+]
+},
+{
+"id": 21004,
+"src": "common.snr",
+"off": 14800,
+"len": 2,
+"cap": 8,
+"jp": "筧",
+"lines": [
+8
+]
+},
+{
+"id": 21005,
+"src": "common.snr",
+"off": 15072,
+"len": 2,
+"cap": 8,
+"jp": "桂",
+"lines": [
+8
+]
+},
+{
+"id": 21006,
+"src": "common.snr",
+"off": 16296,
+"len": 2,
+"cap": 8,
+"jp": "北",
+"lines": [
+8
+]
+},
+{
+"id": 21007,
+"src": "common.snr",
+"off": 24116,
+"len": 2,
+"cap": 8,
+"jp": "島",
+"lines": [
+8
+]
+},
+{
+"id": 21008,
+"src": "common.snr",
+"off": 25272,
+"len": 2,
+"cap": 8,
+"jp": "陶",
+"lines": [
+8
+]
+},
+{
+"id": 21009,
+"src": "common.snr",
+"off": 25340,
+"len": 2,
+"cap": 8,
+"jp": "陶",
+"lines": [
+8
+]
+},
+{
+"id": 21010,
+"src": "common.snr",
+"off": 25408,
+"len": 2,
+"cap": 8,
+"jp": "杉",
+"lines": [
+8
+]
+},
+{
+"id": 21011,
+"src": "common.snr",
+"off": 26020,
+"len": 2,
+"cap": 8,
+"jp": "関",
+"lines": [
+8
+]
+},
+{
+"id": 21012,
+"src": "common.snr",
+"off": 28604,
+"len": 2,
+"cap": 8,
+"jp": "谷",
+"lines": [
+8
+]
+},
+{
+"id": 21013,
+"src": "common.snr",
+"off": 28944,
+"len": 2,
+"cap": 8,
+"jp": "長",
+"lines": [
+8
+]
+},
+{
+"id": 21014,
+"src": "common.snr",
+"off": 29012,
+"len": 2,
+"cap": 8,
+"jp": "長",
+"lines": [
+8
+]
+},
+{
+"id": 21015,
+"src": "common.snr",
+"off": 29080,
+"len": 2,
+"cap": 8,
+"jp": "長",
+"lines": [
+8
+]
+},
+{
+"id": 21016,
+"src": "common.snr",
+"off": 31660,
+"len": 2,
+"cap": 3,
+"jp": "深",
+"lines": [
+3
+]
+},
+{
+"id": 21017,
+"src": "common.snr",
+"off": 35540,
+"len": 2,
+"cap": 8,
+"jp": "林",
+"lines": [
+8
+]
+},
+{
+"id": 21018,
+"src": "common.snr",
+"off": 35676,
+"len": 2,
+"cap": 8,
+"jp": "原",
+"lines": [
+8
+]
+},
+{
+"id": 21019,
+"src": "common.snr",
+"off": 35812,
+"len": 2,
+"cap": 8,
+"jp": "塙",
+"lines": [
+8
+]
+},
+{
+"id": 21020,
+"src": "common.snr",
+"off": 38260,
+"len": 2,
+"cap": 8,
+"jp": "堀",
+"lines": [
+8
+]
+},
+{
+"id": 21021,
+"src": "common.snr",
+"off": 42952,
+"len": 2,
+"cap": 8,
+"jp": "森",
+"lines": [
+8
+]
+},
+{
+"id": 21022,
+"src": "common.snr",
+"off": 43020,
+"len": 2,
+"cap": 8,
+"jp": "森",
+"lines": [
+8
+]
+},
+{
+"id": 21023,
+"src": "common.snr",
+"off": 43088,
+"len": 2,
+"cap": 8,
+"jp": "森",
+"lines": [
+8
+]
+},
+{
+"id": 21024,
+"src": "common.snr",
+"off": 46352,
+"len": 2,
+"cap": 8,
+"jp": "源",
+"lines": [
+8
+]
+},
+{
+"id": 21025,
+"src": "common.snr",
+"off": 46896,
+"len": 2,
+"cap": 8,
+"jp": "平",
+"lines": [
+8
+]
+},
+{
+"id": 21026,
+"src": "common.snr",
+"off": 47100,
+"len": 2,
+"cap": 8,
+"jp": "源",
+"lines": [
+8
+]
+},
+{
+"id": 21027,
+"src": "common.snr",
+"off": 48256,
+"len": 2,
+"cap": 8,
+"jp": "源",
+"lines": [
+8
+]
+},
+{
+"id": 21028,
+"src": "common.snr",
+"off": 48265,
+"len": 2,
+"cap": 8,
+"jp": "静",
+"lines": [
+8
+]
+},
+{
+"id": 21029,
+"src": "common.snr",
+"off": 48333,
+"len": 2,
+"cap": 8,
+"jp": "市",
+"lines": [
+8
+]
+},
+{
+"id": 21030,
+"src": "common.snr",
+"off": 49013,
+"len": 2,
+"cap": 8,
+"jp": "千",
+"lines": [
+8
+]
+},
+{
+"id": 21031,
+"src": "common.snr",
+"off": 49212,
+"len": 2,
+"cap": 4,
+"jp": "木",
+"lines": [
+4
+]
+}
+]

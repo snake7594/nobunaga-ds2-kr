@@ -5,11 +5,14 @@
 - else (params follow) -> conservative: capacity = len + min(trailing_nulls - 1, 4)
 """
 import json
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
 
 def compute():
-    d = open(WORK + r'\fs\scenario\common.snr', 'rb').read()
+    d = open(_os.path.join(WORK, 'fs', 'scenario', 'common.snr'), 'rb').read()
     n = len(d)
     def is_lead(c): return 0x81 <= c <= 0x9F or 0xE0 <= c <= 0xEF
     def is_trail(c): return 0x40 <= c <= 0xFC and c != 0x7F
@@ -42,8 +45,8 @@ def compute():
 
 if __name__ == '__main__':
     caps = compute()
-    json.dump({str(k): v for k, v in caps.items()}, open(WORK + r'\snr_caps.json', 'w'))
-    units = json.load(open(WORK + r'\units.json', encoding='utf-8'))
+    json.dump({str(k): v for k, v in caps.items()}, open(_os.path.join(WORK, 'snr_caps.json'), 'w'))
+    units = json.load(open(_os.path.join(WORK, 'units.json'), encoding='utf-8'))
     tight = 0
     for u in units:
         if u['src'] != 'common.snr': continue

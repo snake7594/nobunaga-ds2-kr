@@ -12,9 +12,12 @@ Safe rule for a unit:
   * starts at a field boundary (preceded by 0x00) and is null-terminated
 """
 import json, os, sys
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
-d = open(WORK + r'\fs\scenario\common.snr', 'rb').read()
+d = open(_os.path.join(WORK, 'fs', 'scenario', 'common.snr'), 'rb').read()
 
 def is_lead(c): return 0x81 <= c <= 0x9F or 0xE0 <= c <= 0xEF
 def is_trail(c): return 0x40 <= c <= 0xFC and c != 0x7F
@@ -56,7 +59,7 @@ print(f'safe common.snr text fields: {len(good)}')
 tot = sum(g['len'] for g in good)
 print(f'total text bytes: {tot}')
 
-old = [u for u in json.load(open(WORK + r'\units.json', encoding='utf-8'))
+old = [u for u in json.load(open(_os.path.join(WORK, 'units.json'), encoding='utf-8'))
        if u['src'] == 'common.snr']
 print(f'previous (unsafe) unit count: {len(old)}')
 oldset = {u['off'] for u in old}
@@ -64,7 +67,7 @@ newset = {g['off'] for g in good}
 print(f'  dropped (binary mis-detected): {len(oldset - newset)}')
 print(f'  newly included: {len(newset - oldset)}')
 
-json.dump(good, open(WORK + r'\snr_units_safe.json', 'w', encoding='utf-8'),
+json.dump(good, open(_os.path.join(WORK, 'snr_units_safe.json'), 'w', encoding='utf-8'),
           ensure_ascii=False, indent=0)
 for g in good[:8]:
     print(f"   0x{g['off']:X} len={g['len']} cap={g['cap']} {g['jp']}")

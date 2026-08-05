@@ -2,15 +2,18 @@
 """Korean patch toolchain: Hangul glyph rendering, text encoding, byte budget check."""
 import json, struct, os
 from PIL import Image, ImageFont, ImageDraw
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-WORK = r'D:\nds\roms\NOBU2\_work'
 
 # ---------- Hangul glyph rendering (Galmuri11 bitmap font, user-requested) ----------
 _font = None
 def get_font():
     global _font
     if _font is None:
-        _font = ImageFont.truetype(r'D:\nds\files (1)\Galmuri11.ttf', 12)
+        _font = ImageFont.truetype(FONT, 12)
     return _font
 
 def render_glyph12(ch):
@@ -44,7 +47,7 @@ KEEP_CHARS = set('、。，．・：；？！´｀¨＾ー―‐／＼～…‥'
                  'ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ')
 
 def load_code2idx():
-    return {int(k, 16): v for k, v in json.load(open(WORK + r'\code2idx.json')).items()}
+    return {int(k, 16): v for k, v in json.load(open(_os.path.join(WORK, 'code2idx.json'))).items()}
 
 def hangul_pool(code2idx):
     """SJIS codes available for Hangul (kanji slots, glyph idx >= 295)."""
@@ -78,12 +81,15 @@ def encode_line(text, smap, strict=True):
             code = smap.get(ch)
             if code is None: raise KeyError(f'unmapped syllable {ch}')
             out += bytes([code >> 8, code & 0xFF])
-        elif ch in KEEP_CHARS:
-            out += ch.encode('shift_jis')
-        elif strict:
-            raise ValueError(f'forbidden char {ch!r} U+{o:04X}')
         else:
-            out += ch.encode('shift_jis')
+            is_kana = 0x3041 <= o <= 0x30FF and o not in (0x30FB, 0x30FC)  # allow ・ ー
+            is_cjk = 0x4E00 <= o <= 0x9FFF or 0x3400 <= o <= 0x4DBF
+            if strict and (is_kana or is_cjk):
+                raise ValueError(f'forbidden char {ch!r} U+{o:04X}')
+            try:
+                out += ch.encode('shift_jis')
+            except UnicodeEncodeError:
+                raise ValueError(f'unencodable char {ch!r} U+{o:04X}')
         i += 1
     return bytes(out)
 

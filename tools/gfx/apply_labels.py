@@ -20,8 +20,11 @@ from PIL import Image, ImageFont, ImageDraw
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ncer
 import label_tools as lt
+import os as _os, sys as _sys
+_sys.path[:0] = [_os.path.dirname(_os.path.abspath(__file__)),
+                _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')]
+from nobu2_paths import ROM_IN, ROM_OUT, WORK, FONT, DATA
 
-FONT = r'D:\nds\files (1)\Galmuri11.ttf'
 # Galmuri11 is pixel-perfect at multiples of 12 and ONLY there: at 9 or 10 px
 # the strokes of a Hangul syllable merge into a solid block.  So 24 for tall
 # buttons, 12 for everything else, and nothing in between - a label that cannot

@@ -1,0 +1,42 @@
+{
+ "file": "HexChalFail",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\HexChalFail.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 144,
+   "h": 64,
+   "nsprites": 4,
+   "tiles": [
+    0,
+    16,
+    32,
+    34
+   ]
+  },
+  {
+   "index": 1,
+   "w": 144,
+   "h": 64,
+   "nsprites": 4,
+   "tiles": [
+    36,
+    52,
+    68,
+    70
+   ]
+  },
+  {
+   "index": 2,
+   "w": 144,
+   "h": 64,
+   "nsprites": 4,
+   "tiles": [
+    72,
+    88,
+    104,
+    106
+   ]
+  }
+ ]
+}

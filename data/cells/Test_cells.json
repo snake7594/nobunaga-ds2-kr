@@ -1,0 +1,48 @@
+{
+ "file": "Test",
+ "path": "D:\\nds\\roms\\NOBU2\\_work\\fs\\obj\\Test.dat",
+ "cells": [
+  {
+   "index": 0,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    0
+   ]
+  },
+  {
+   "index": 1,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    4
+   ]
+  },
+  {
+   "index": 2,
+   "w": 32,
+   "h": 32,
+   "same_as": 0
+  },
+  {
+   "index": 3,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    12
+   ]
+  },
+  {
+   "index": 4,
+   "w": 32,
+   "h": 32,
+   "nsprites": 1,
+   "tiles": [
+    16
+   ]
+  }
+ ]
+}
